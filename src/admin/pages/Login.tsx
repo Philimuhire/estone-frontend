@@ -1,7 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { adminLogin } from '../../services/api';
+import { adminLogin, googleLogin } from '../../services/api';
+
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: {
+            client_id: string;
+            callback: (response: { credential: string }) => void;
+          }) => void;
+          renderButton: (
+            element: HTMLElement,
+            config: {
+              theme?: string;
+              size?: string;
+              width?: number;
+              text?: string;
+            }
+          ) => void;
+        };
+      };
+    };
+  }
+}
+
+const GOOGLE_CLIENT_ID = '903620530335-3o1ju597guaelfak2glqou36t2c454vn.apps.googleusercontent.com';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -12,15 +38,67 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const googleButtonRef = useRef<HTMLDivElement>(null);
 
   const from = (location.state as any)?.from?.pathname || '/admin';
 
-  // Redirect if already authenticated
-  React.useEffect(() => {
+  useEffect(() => {
     if (isAuthenticated) {
       navigate(from, { replace: true });
     }
   }, [isAuthenticated, navigate, from]);
+
+  const handleGoogleCallback = useCallback(async (response: { credential: string }) => {
+    setError('');
+    setIsLoading(true);
+    try {
+      const result = await googleLogin(response.credential);
+      if (result.token && result.user) {
+        login(result.token, result.user);
+        navigate(from, { replace: true });
+      } else {
+        setError('Invalid response from server');
+      }
+    } catch (err) {
+      console.error('Google login error:', err);
+      if (err instanceof TypeError && err.message === 'Failed to fetch') {
+        setError('Cannot connect to server. Make sure the backend is running on http://localhost:5000');
+      } else {
+        setError(err instanceof Error ? err.message : 'Google login failed');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }, [login, navigate, from]);
+
+  useEffect(() => {
+    const initGoogle = () => {
+      if (window.google && googleButtonRef.current) {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleGoogleCallback,
+        });
+        window.google.accounts.id.renderButton(googleButtonRef.current, {
+          theme: 'outline',
+          size: 'large',
+          width: 400,
+          text: 'signin_with',
+        });
+      }
+    };
+
+    if (window.google) {
+      initGoogle();
+    } else {
+      const interval = setInterval(() => {
+        if (window.google) {
+          clearInterval(interval);
+          initGoogle();
+        }
+      }, 100);
+      return () => clearInterval(interval);
+    }
+  }, [handleGoogleCallback]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +130,7 @@ const Login: React.FC = () => {
       <div className="max-w-md w-full">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-800">ESCOtech Admin</h1>
+            <h1 className="text-2xl font-bold text-gray-800">ESTONE Admin</h1>
             <p className="text-gray-600 mt-2">Sign in to your account</p>
           </div>
 
@@ -132,6 +210,18 @@ const Login: React.FC = () => {
               )}
             </button>
           </form>
+
+          {/* Divider */}
+          <div className="flex items-center my-6">
+            <div className="flex-1 border-t border-gray-300"></div>
+            <span className="px-4 text-sm text-gray-500">or</span>
+            <div className="flex-1 border-t border-gray-300"></div>
+          </div>
+
+          {/* Google Sign-In Button */}
+          <div className="flex justify-center">
+            <div ref={googleButtonRef}></div>
+          </div>
         </div>
       </div>
     </div>
