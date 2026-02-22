@@ -1,6 +1,5 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
-// Types
 export interface Project {
   id: number;
   title: string;
@@ -57,6 +56,13 @@ export interface LoginResponse {
   user: User;
 }
 
+export interface Admin {
+  id: number;
+  name: string;
+  email: string;
+  createdAt: string;
+}
+
 export interface ContactFormData {
   fullName: string;
   email?: string;
@@ -71,7 +77,6 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-// Auth helper
 const getAuthHeaders = (): HeadersInit => {
   const token = localStorage.getItem('adminToken');
   return {
@@ -87,7 +92,6 @@ const getAuthHeadersMultipart = (): HeadersInit => {
   };
 };
 
-// API Functions
 export const fetchProjects = async (): Promise<Project[]> => {
   try {
     const response = await fetch(`${API_BASE_URL}/projects`);
@@ -162,9 +166,6 @@ export const submitContactForm = async (formData: ContactFormData): Promise<ApiR
   }
 };
 
-// ==================== ADMIN API FUNCTIONS ====================
-
-// Auth
 export const adminLogin = async (email: string, password: string): Promise<LoginResponse> => {
   const response = await fetch(`${API_BASE_URL}/auth/login`, {
     method: 'POST',
@@ -176,7 +177,27 @@ export const adminLogin = async (email: string, password: string): Promise<Login
     throw new Error(data.message || 'Login failed');
   }
   const loginData = data.data || data;
-  // Transform flat response to expected format with nested user object
+  return {
+    token: loginData.token,
+    user: {
+      id: loginData.id,
+      email: loginData.email,
+      name: loginData.name,
+    },
+  };
+};
+
+export const googleLogin = async (credential: string): Promise<LoginResponse> => {
+  const response = await fetch(`${API_BASE_URL}/auth/google`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ credential }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || 'Google login failed');
+  }
+  const loginData = data.data || data;
   return {
     token: loginData.token,
     user: {
@@ -198,7 +219,6 @@ export const getMe = async (): Promise<User> => {
   return data.data || data;
 };
 
-// Messages
 export const fetchMessages = async (): Promise<Message[]> => {
   const response = await fetch(`${API_BASE_URL}/messages`, {
     headers: getAuthHeaders(),
@@ -245,7 +265,6 @@ export const deleteMessage = async (id: number): Promise<void> => {
   }
 };
 
-// Projects (Admin)
 export const createProject = async (formData: FormData): Promise<Project> => {
   const response = await fetch(`${API_BASE_URL}/projects`, {
     method: 'POST',
@@ -283,7 +302,6 @@ export const deleteProject = async (id: number): Promise<void> => {
   }
 };
 
-// Team (Admin)
 export const createTeamMember = async (formData: FormData): Promise<TeamMember> => {
   const response = await fetch(`${API_BASE_URL}/team`, {
     method: 'POST',
@@ -321,7 +339,6 @@ export const deleteTeamMember = async (id: number): Promise<void> => {
   }
 };
 
-// Services
 export const fetchServices = async (): Promise<Service[]> => {
   const response = await fetch(`${API_BASE_URL}/services`);
   const data = await response.json();
@@ -365,5 +382,40 @@ export const deleteService = async (id: number): Promise<void> => {
   if (!response.ok) {
     const data = await response.json();
     throw new Error(data.message || 'Failed to delete service');
+  }
+};
+
+export const fetchAdmins = async (): Promise<Admin[]> => {
+  const response = await fetch(`${API_BASE_URL}/auth/admins`, {
+    headers: getAuthHeaders(),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to fetch admins');
+  }
+  return data.data || data;
+};
+
+export const addAdmin = async (email: string, name: string): Promise<Admin> => {
+  const response = await fetch(`${API_BASE_URL}/auth/admins`, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify({ email, name }),
+  });
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to add admin');
+  }
+  return data.data || data;
+};
+
+export const removeAdmin = async (id: number): Promise<void> => {
+  const response = await fetch(`${API_BASE_URL}/auth/admins/${id}`, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+  });
+  if (!response.ok) {
+    const data = await response.json();
+    throw new Error(data.message || 'Failed to remove admin');
   }
 };
