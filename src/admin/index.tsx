@@ -9,6 +9,7 @@ import Messages from './pages/Messages';
 import Projects from './pages/Projects';
 import Team from './pages/Team';
 import Services from './pages/Services';
+import Admins from './pages/Admins';
 
 const AdminRoutes: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ const AdminRoutes: React.FC = () => {
           <Route path="projects" element={<Projects />} />
           <Route path="team" element={<Team />} />
           <Route path="services" element={<Services />} />
+          <Route path="admins" element={<Admins />} />
         </Route>
         <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
