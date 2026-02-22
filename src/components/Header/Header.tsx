@@ -22,7 +22,6 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  // Use solid style if forced or scrolled
   const isSolid = forceSolid || isScrolled;
 
   useEffect(() => {
@@ -64,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
               <span className={`font-semibold text-base leading-tight transition-colors duration-300 ${
                 isSolid ? 'text-primary-800' : 'text-white'
               }`}>
-                ESCOtech Ltd
+                ESTONE Ltd
               </span>
               <span className={`text-xs font-medium transition-colors duration-300 ${
                 isSolid ? 'text-secondary-500' : 'text-white/80'

@@ -157,28 +157,26 @@ const Team: React.FC = () => {
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* CEO Image */}
             <div className="relative">
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <div className="rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src="/images/team-leader.jpg"
                   alt="Eng. Daniel NDAGIJIMANA - CEO & Founder"
-                  className="w-full h-[400px] lg:h-[500px] object-cover"
+                  className="w-full h-[400px] lg:h-[500px] object-cover object-top"
                 />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary-900/60 via-transparent to-transparent" />
+              </div>
 
-                {/* Name Badge */}
-                <div className="absolute bottom-6 left-6 right-6">
-                  <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 rounded-xl bg-primary-600 flex items-center justify-center flex-shrink-0">
-                        <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                      </div>
-                      <div>
-                        <p className="font-bold text-secondary-900">Eng. Daniel NDAGIJIMANA</p>
-                        <p className="text-sm text-primary-600 font-medium">CEO & Founder</p>
-                      </div>
+              {/* Name Badge */}
+              <div className="mt-4">
+                <div className="bg-white rounded-2xl p-4 shadow-lg border border-secondary-100">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-xl bg-primary-600 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-bold text-secondary-900">Eng. Daniel NDAGIJIMANA</p>
+                      <p className="text-sm text-primary-600 font-medium">CEO & Founder</p>
                     </div>
                   </div>
                 </div>
@@ -216,7 +214,7 @@ const Team: React.FC = () => {
               {/* Contact Info */}
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/in/daniel-ndagijimana-126683362/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3BbtUxf8hvR%2F6RzUOQuI7voA%3D%3D"
                   className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-secondary-200 text-secondary-600 hover:border-primary-300 hover:text-primary-600 transition-all duration-300 shadow-sm"
                 >
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -255,7 +253,7 @@ const Team: React.FC = () => {
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>

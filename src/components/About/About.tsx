@@ -39,13 +39,13 @@ const About: React.FC = () => {
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            About ESCOtech
+            About ESTONE
           </div>
 
           {/* Tagline with decorative elements */}
           <div className="flex items-center justify-center gap-4 max-w-xl mx-auto">
             <p className="text-base sm:text-lg text-secondary-600 font-medium italic px-4">
-              Where Your Aspirations Are Our Inspiration.
+              Where Your Aspiration Are Our Inspiration.
             </p>
           </div>
         </div>
@@ -67,7 +67,7 @@ const About: React.FC = () => {
               <img
                 src="/images/hero-engineering.jpg"
                 alt="ESTONE Engineering Excellence"
-                className="w-full h-[400px] lg:h-[500px] object-cover"
+                className="w-full h-[400px] lg:h-[500px] object-cover object-top"
               />
               {/* Overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-primary-900/40 via-transparent to-transparent" />
@@ -82,7 +82,7 @@ const About: React.FC = () => {
                       </svg>
                     </div>
                     <div>
-                      <p className="font-bold text-secondary-900">ESCOtech Ltd</p>
+                      <p className="font-bold text-secondary-900">ESTONE Ltd</p>
                       <p className="text-sm text-secondary-500">Nyarugenge - Kigali - Rwanda</p>
                     </div>
                   </div>
@@ -120,7 +120,7 @@ const About: React.FC = () => {
 
               <div className="space-y-5 text-secondary-600 leading-relaxed text-lg">
                 <p>
-                  Welcome to <span className="font-semibold text-primary-700">ESCOtech</span> – where prompt, precise service defines our success.
+                  Welcome to <span className="font-semibold text-primary-700">ESTONE</span> – where prompt, precise service defines our success.
                 </p>
                 <p>
                   We offer a full range of solutions, including building and infrastructure construction, structural analysis, GIS, remote sensing, interior design, and landscape architecture.

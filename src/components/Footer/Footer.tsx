@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
                 </svg>
               </div>
               <div>
-                <h3 className="font-heading font-bold text-lg">ESCOtech Ltd</h3>
+                <h3 className="font-heading font-bold text-lg">ESTONE Ltd</h3>
                 <p className="text-xs text-primary-400">Engineering Excellence</p>
               </div>
             </div>
@@ -138,8 +138,8 @@ const Footer: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <a href="mailto:info@escotech.rw" className="text-sm text-secondary-400 hover:text-primary-400 transition-colors">
-                  info@escotech.rw
+                <a href="mailto:estonedesigningandcons@gmail.com" className="text-sm text-secondary-400 hover:text-primary-400 transition-colors">
+                  estonedesigningandcons@gmail.com
                 </a>
               </div>
 
@@ -149,7 +149,9 @@ const Footer: React.FC = () => {
                 <div className="flex gap-3">
                   {/* LinkedIn */}
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/daniel-ndagijimana-126683362/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3BbtUxf8hvR%2F6RzUOQuI7voA%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 rounded-lg bg-secondary-800 flex items-center justify-center text-secondary-400 hover:bg-primary-600 hover:text-white transition-all duration-300"
                     aria-label="LinkedIn"
                   >
@@ -159,7 +161,9 @@ const Footer: React.FC = () => {
                   </a>
                   {/* Twitter/X */}
                   <a
-                    href="#"
+                    href="https://x.com/LtdEtone"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 rounded-lg bg-secondary-800 flex items-center justify-center text-secondary-400 hover:bg-primary-600 hover:text-white transition-all duration-300"
                     aria-label="Twitter"
                   >
@@ -169,7 +173,9 @@ const Footer: React.FC = () => {
                   </a>
                   {/* Facebook */}
                   <a
-                    href="#"
+                    href="https://web.facebook.com/profile.php?id=61587273312474"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 rounded-lg bg-secondary-800 flex items-center justify-center text-secondary-400 hover:bg-primary-600 hover:text-white transition-all duration-300"
                     aria-label="Facebook"
                   >
@@ -179,12 +185,26 @@ const Footer: React.FC = () => {
                   </a>
                   {/* Instagram */}
                   <a
-                    href="#"
+                    href="https://www.instagram.com/estoneltd?igsh=MTc4aDJmOGVndDRrMw=="
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-10 h-10 rounded-lg bg-secondary-800 flex items-center justify-center text-secondary-400 hover:bg-primary-600 hover:text-white transition-all duration-300"
                     aria-label="Instagram"
                   >
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                    </svg>
+                  </a>
+                  {/* YouTube */}
+                  <a
+                    href="https://www.youtube.com/channel/UCzLgt9C-VVNgQNIG_cn9sLQ/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 rounded-lg bg-secondary-800 flex items-center justify-center text-secondary-400 hover:bg-primary-600 hover:text-white transition-all duration-300"
+                    aria-label="YouTube"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                     </svg>
                   </a>
                 </div>
@@ -199,7 +219,7 @@ const Footer: React.FC = () => {
         <div className="container-custom py-6">
           <div className="relative flex items-center justify-center">
             <p className="text-sm text-secondary-400">
-              &copy; {currentYear} ESCOtech Ltd. All rights reserved.
+              &copy; {currentYear} ESTONE Ltd. All rights reserved.
             </p>
             <a
               href="https://wa.me/250789058711"

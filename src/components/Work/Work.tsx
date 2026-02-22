@@ -31,10 +31,13 @@ const fallbackProjects: Project[] = [
   },
 ];
 
+const PROJECTS_PER_PAGE = 8;
+
 const Work: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
   const [projects, setProjects] = useState<Project[]>(fallbackProjects);
+  const [currentPage, setCurrentPage] = useState(1);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -88,6 +91,12 @@ const Work: React.FC = () => {
     ? projects
     : projects.filter(p => p.category === activeFilter);
 
+  const totalPages = Math.ceil(filteredProjects.length / PROJECTS_PER_PAGE);
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * PROJECTS_PER_PAGE,
+    currentPage * PROJECTS_PER_PAGE
+  );
+
   return (
     <section
       id="work"
@@ -119,7 +128,7 @@ const Work: React.FC = () => {
             {filters.map((filter) => (
               <button
                 key={filter.key}
-                onClick={() => setActiveFilter(filter.key)}
+                onClick={() => { setActiveFilter(filter.key); setCurrentPage(1); }}
                 className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
                   activeFilter === filter.key
                     ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
@@ -138,7 +147,7 @@ const Work: React.FC = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {filteredProjects.map((project, index) => (
+          {paginatedProjects.map((project, index) => (
             <Link
               key={project.id || index}
               to={project.id ? `/project/${project.id}` : '#'}
@@ -207,6 +216,45 @@ const Work: React.FC = () => {
             </Link>
           ))}
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mb-16">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="w-10 h-10 rounded-lg flex items-center justify-center border border-secondary-200 text-secondary-600 hover:bg-primary-600 hover:text-white hover:border-primary-600 disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-secondary-600 disabled:hover:border-secondary-200 transition-all duration-300"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-10 h-10 rounded-lg font-medium text-sm transition-all duration-300 ${
+                  currentPage === page
+                    ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
+                    : 'border border-secondary-200 text-secondary-600 hover:bg-primary-600 hover:text-white hover:border-primary-600'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="w-10 h-10 rounded-lg flex items-center justify-center border border-secondary-200 text-secondary-600 hover:bg-primary-600 hover:text-white hover:border-primary-600 disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-secondary-600 disabled:hover:border-secondary-200 transition-all duration-300"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        )}
 
         {/* CTA Section */}
         <div

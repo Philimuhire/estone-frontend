@@ -22,7 +22,6 @@ const ProjectDetail: React.FC = () => {
         const projectData = await fetchProject(parseInt(id));
         setProject(projectData);
 
-        // Load related projects (same category, excluding current)
         const allProjects = await fetchProjects();
         const related = allProjects
           .filter((p) => p.category === projectData.category && p.id !== projectData.id)
@@ -191,15 +190,15 @@ const ProjectDetail: React.FC = () => {
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-gray-200">
-                  <a
-                    href="#contact"
+                  <Link
+                    to="/#contact"
                     className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary-600 text-white font-semibold rounded-xl hover:bg-primary-700 transition-colors"
                   >
                     Start Your Project
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

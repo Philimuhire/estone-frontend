@@ -36,7 +36,6 @@ const Contact: React.FC = () => {
       ...prev,
       [name]: value,
     }));
-    // Clear status when user starts typing
     if (submitStatus) {
       setSubmitStatus(null);
     }
@@ -146,7 +145,7 @@ const Contact: React.FC = () => {
               </div>
               <div>
                 <p className="font-semibold text-secondary-900 mb-1">Email</p>
-                <p className="text-sm text-secondary-600">info@escotech.rw</p>
+                <p className="text-sm text-secondary-600">estonedesigningandcons@gmail.com</p>
               </div>
             </a>
 
@@ -228,7 +227,7 @@ const Contact: React.FC = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="your.email@example.com"
+                    placeholder="your.email@gmail.com"
                     className="w-full px-4 py-3 rounded-xl border border-secondary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all duration-300"
                   />
                 </div>
