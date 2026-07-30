@@ -20,16 +20,28 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState('');
 
   const isSolid = forceSolid || isScrolled;
 
   useEffect(() => {
+    // Sections only exist on the home page; elsewhere no nav item is highlighted.
+    const sections = navItems
+      .map((item) => ({ id: item.href.replace('/#', ''), el: document.getElementById(item.href.replace('/#', '')) }))
+      .filter((section): section is { id: string; el: HTMLElement } => section.el !== null);
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      if (sections.length === 0) return;
+
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      const current = sections.filter((section) => section.el.offsetTop <= marker).pop();
+      setActiveSection((current || sections[0]).id);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -52,7 +64,6 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
     >
       <div className="container-custom">
         <nav className="flex items-center justify-between">
-          {/* Logo */}
           <a href="/#home" className="flex items-center gap-3 group">
             <img
               src="/images/company-logo.png"
@@ -73,14 +84,13 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
             </div>
           </a>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={() => handleNavClick(item.href)}
-                className={`relative text-sm font-medium transition-colors duration-300 ${
+                className={`group relative text-sm font-medium transition-colors duration-300 ${
                   isSolid
                     ? activeSection === item.href.replace('/#', '')
                       ? 'text-primary-600'
@@ -102,7 +112,6 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
             ))}
           </div>
 
-          {/* CTA Button - Desktop */}
           <div className="hidden lg:block">
             <a
               href="/#contact"
@@ -116,7 +125,6 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
             className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
@@ -151,7 +159,6 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
           </button>
         </nav>
 
-        {/* Mobile Menu */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ${
             isMenuOpen ? 'max-h-96 mt-4' : 'max-h-0'

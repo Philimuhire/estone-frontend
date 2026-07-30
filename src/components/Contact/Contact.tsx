@@ -69,13 +69,11 @@ const Contact: React.FC = () => {
       className="py-20 lg:py-28 bg-gradient-to-b from-white to-secondary-50 overflow-hidden"
     >
       <div className="container-custom">
-        {/* Section Header */}
         <div
           className={`text-center mb-16 transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {/* Badge */}
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-semibold rounded-full mb-6 shadow-lg shadow-primary-500/30">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -83,20 +81,17 @@ const Contact: React.FC = () => {
             Contact Us
           </div>
 
-          {/* Subtitle */}
           <p className="text-base sm:text-lg text-secondary-600 max-w-2xl mx-auto">
             We'd love to hear from you. Let's start a conversation.
           </p>
         </div>
 
-        {/* Contact Info Card - Single unified card */}
         <div
           className={`bg-white rounded-3xl p-8 shadow-xl border border-secondary-100 mb-16 transition-all duration-700 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
           <div className="grid sm:grid-cols-3 gap-8">
-            {/* Location */}
             <a
               href="https://maps.google.com/?q=Nyamirambo,Kigali,Rwanda"
               target="_blank"
@@ -116,7 +111,6 @@ const Contact: React.FC = () => {
               </div>
             </a>
 
-            {/* Phone */}
             <a
               href="tel:+250781013090"
               className="group flex items-start gap-4 hover:bg-secondary-50 p-3 -m-3 rounded-xl transition-colors duration-300"
@@ -133,9 +127,8 @@ const Contact: React.FC = () => {
               </div>
             </a>
 
-            {/* Email */}
             <a
-              href="mailto:info@escotech.rw"
+              href="mailto:estonedesigningandcons@gmail.com"
               className="group flex items-start gap-4 hover:bg-secondary-50 p-3 -m-3 rounded-xl transition-colors duration-300"
             >
               <div className="w-12 h-12 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
@@ -152,13 +145,11 @@ const Contact: React.FC = () => {
           </div>
         </div>
 
-        {/* CTA Banner */}
         <div
           className={`relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 rounded-3xl p-8 md:p-10 mb-16 overflow-hidden transition-all duration-700 delay-300 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
@@ -185,20 +176,17 @@ const Contact: React.FC = () => {
           </div>
         </div>
 
-        {/* Contact Form & Map Section */}
         <div
           className={`grid lg:grid-cols-2 gap-8 lg:gap-12 transition-all duration-700 delay-400 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {/* Contact Form */}
           <div className="bg-white rounded-3xl p-8 shadow-xl border border-secondary-100">
             <h3 className="text-xl lg:text-2xl font-heading font-bold text-secondary-900 mb-6">
               Send Us a Message
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-5">
-              {/* Full Name */}
               <div>
                 <label htmlFor="fullName" className="block text-sm font-medium text-secondary-700 mb-2">
                   Full Name <span className="text-red-500">*</span>
@@ -215,7 +203,6 @@ const Contact: React.FC = () => {
                 />
               </div>
 
-              {/* Email & Phone Row */}
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-secondary-700 mb-2">
@@ -247,7 +234,6 @@ const Contact: React.FC = () => {
                 </div>
               </div>
 
-              {/* Message */}
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-secondary-700 mb-2">
                   Message
@@ -263,7 +249,6 @@ const Contact: React.FC = () => {
                 />
               </div>
 
-              {/* Status Message */}
               {submitStatus && (
                 <div
                   className={`p-4 rounded-xl ${
@@ -287,7 +272,6 @@ const Contact: React.FC = () => {
                 </div>
               )}
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
@@ -313,13 +297,12 @@ const Contact: React.FC = () => {
             </form>
           </div>
 
-          {/* Map Card */}
           <div className="bg-white rounded-3xl p-8 shadow-xl border border-secondary-100">
             <h3 className="text-xl lg:text-2xl font-heading font-bold text-secondary-900 mb-6">
               Find Us
             </h3>
 
-            {/* Map - Clickable for directions */}
+
             <a
               href="https://www.google.com/maps/dir/?api=1&destination=23H4%2B98+Kigali+Rwanda"
               target="_blank"
@@ -334,10 +317,10 @@ const Contact: React.FC = () => {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="ESCOtech Office Location"
+                title="ESTONE Office Location"
                 className="absolute inset-0"
               />
-              {/* Hover overlay */}
+
               <div className="absolute inset-0 bg-primary-600/0 group-hover:bg-primary-600/20 transition-colors duration-300 flex items-center justify-center">
                 <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-3">
                   <svg className="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

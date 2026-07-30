@@ -35,7 +35,6 @@ const ProjectDetail: React.FC = () => {
     };
 
     loadProject();
-    window.scrollTo(0, 0);
   }, [id]);
 
   if (isLoading) {
@@ -73,7 +72,6 @@ const ProjectDetail: React.FC = () => {
     <div className="min-h-screen">
       <Header forceSolid />
 
-      {/* Hero Section */}
       <section className="relative h-[60vh] md:h-[70vh] mt-20">
         <img
           src={project.image}
@@ -116,11 +114,9 @@ const ProjectDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* Project Details */}
       <section className="py-16 md:py-20">
         <div className="container-custom">
           <div className="grid lg:grid-cols-3 gap-12">
-            {/* Main Content */}
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-heading font-bold text-gray-900 mb-6">
                 Project Overview
@@ -139,7 +135,6 @@ const ProjectDetail: React.FC = () => {
               )}
             </div>
 
-            {/* Sidebar */}
             <div className="lg:col-span-1">
               <div className="bg-gray-50 rounded-2xl p-6 sticky top-24">
                 <h3 className="text-lg font-bold text-gray-900 mb-6">Project Details</h3>
@@ -206,7 +201,6 @@ const ProjectDetail: React.FC = () => {
         </div>
       </section>
 
-      {/* Related Projects */}
       {relatedProjects.length > 0 && (
         <section className="py-16 bg-gray-50">
           <div className="container-custom">
@@ -240,7 +234,6 @@ const ProjectDetail: React.FC = () => {
         </section>
       )}
 
-      {/* Back to Projects */}
       <section className="py-8">
         <div className="container-custom">
           <Link

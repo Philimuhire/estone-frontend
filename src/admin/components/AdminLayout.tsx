@@ -1,29 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Outlet, useOutletContext } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { useAuth } from '../context/AuthContext';
 import { fetchMessages } from '../../services/api';
+
+export interface AdminOutletContext {
+  /** Re-reads the unread message count so the sidebar badge updates immediately. */
+  refreshUnreadCount: () => void;
+}
+
+export const useAdminOutletContext = (): AdminOutletContext =>
+  useOutletContext<AdminOutletContext>();
+
+const UNREAD_POLL_INTERVAL_MS = 30000;
 
 const AdminLayout: React.FC = () => {
   const { user } = useAuth();
   const [unreadMessages, setUnreadMessages] = useState(0);
 
-  useEffect(() => {
-    const loadUnreadCount = async () => {
-      try {
-        const messages = await fetchMessages();
-        const unread = messages.filter((m) => !m.isRead).length;
-        setUnreadMessages(unread);
-      } catch {
-        // Silently fail - sidebar will show 0
-      }
-    };
+  const refreshUnreadCount = useCallback(async () => {
+    try {
+      const messages = await fetchMessages();
+      setUnreadMessages(messages.filter((m) => !m.isRead).length);
+    } catch {
+      // Silently fail - sidebar keeps its last known count
+    }
+  }, []);
 
-    loadUnreadCount();
-    const interval = setInterval(loadUnreadCount, 30000); // Refresh every 30s
+  useEffect(() => {
+    refreshUnreadCount();
+    const interval = setInterval(refreshUnreadCount, UNREAD_POLL_INTERVAL_MS);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [refreshUnreadCount]);
+
+  const outletContext: AdminOutletContext = { refreshUnreadCount };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -42,7 +53,7 @@ const AdminLayout: React.FC = () => {
         </header>
 
         <main className="p-8">
-          <Outlet context={{ setUnreadMessages }} />
+          <Outlet context={outletContext} />
         </main>
       </div>
     </div>

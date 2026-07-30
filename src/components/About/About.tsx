@@ -28,13 +28,11 @@ const About: React.FC = () => {
       className="py-20 lg:py-28 bg-gradient-to-b from-white to-secondary-50 overflow-hidden"
     >
       <div className="container-custom">
-        {/* Section Header */}
         <div
           className={`text-center mb-16 transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {/* About Us Badge */}
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-semibold rounded-full mb-6 shadow-lg shadow-primary-500/30">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -42,7 +40,6 @@ const About: React.FC = () => {
             About ESTONE
           </div>
 
-          {/* Tagline with decorative elements */}
           <div className="flex items-center justify-center gap-4 max-w-xl mx-auto">
             <p className="text-base sm:text-lg text-secondary-600 font-medium italic px-4">
               Where Your Aspiration Are Our Inspiration.
@@ -50,29 +47,23 @@ const About: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Content - Image Left, Content Right */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
-          {/* Left - Image with Decorative Elements */}
           <div
             className={`relative transition-all duration-1000 delay-200 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
             }`}
           >
-            {/* Decorative background shapes */}
             <div className="absolute -top-6 -left-6 w-32 h-32 bg-primary-100 rounded-3xl -z-10" />
             <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-primary-600/10 rounded-3xl -z-10" />
 
-            {/* Main Image */}
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img
                 src="/images/hero-engineering.jpg"
                 alt="ESTONE Engineering Excellence"
                 className="w-full h-[400px] lg:h-[500px] object-cover object-top"
               />
-              {/* Overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-primary-900/40 via-transparent to-transparent" />
 
-              {/* Floating Badge */}
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
                   <div className="flex items-center gap-4">
@@ -90,7 +81,6 @@ const About: React.FC = () => {
               </div>
             </div>
 
-            {/* Stats floating card */}
             <div className="absolute -right-4 top-8 bg-white rounded-2xl shadow-xl p-4 hidden lg:block">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
@@ -106,7 +96,6 @@ const About: React.FC = () => {
             </div>
           </div>
 
-          {/* Right - Who We Are Content */}
           <div
             className={`transition-all duration-1000 delay-400 ${
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
@@ -130,7 +119,6 @@ const About: React.FC = () => {
                 </p>
               </div>
 
-              {/* Feature highlights */}
               <div className="mt-8 grid grid-cols-2 gap-4">
                 {[
                   {
@@ -179,15 +167,12 @@ const About: React.FC = () => {
           </div>
         </div>
 
-        {/* Mission & Objectives Cards */}
         <div
           className={`grid md:grid-cols-2 gap-8 transition-all duration-1000 delay-600 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {/* Mission Card */}
           <div className="group relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 rounded-3xl p-8 text-white shadow-xl overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-primary-500/40 hover:-translate-y-2 transition-all duration-500">
-            {/* Glow effect on hover */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-white/10 to-transparent" />
 
             <div className="relative">
@@ -204,19 +189,15 @@ const About: React.FC = () => {
               </p>
             </div>
 
-            {/* Bottom border accent */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-300 via-white to-primary-300 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
           </div>
 
-          {/* Objectives Card */}
           <div className="group relative bg-white rounded-3xl p-8 shadow-xl border border-secondary-100 overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-primary-200/50 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500">
-            {/* Background Pattern - animates on hover */}
             <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
               <div className="absolute top-0 right-0 w-40 h-40 bg-primary-600 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary-600 rounded-full translate-y-1/2 -translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
             </div>
 
-            {/* Glow effect on hover */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-primary-50 to-transparent" />
 
             <div className="relative">
@@ -233,12 +214,10 @@ const About: React.FC = () => {
               </p>
             </div>
 
-            {/* Bottom border accent */}
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary-400 via-primary-600 to-primary-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-center" />
           </div>
         </div>
 
-        {/* Quote Section */}
         <div
           className={`mt-16 transition-all duration-1000 delay-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'

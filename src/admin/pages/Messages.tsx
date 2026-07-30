@@ -6,8 +6,10 @@ import {
   Message,
 } from '../../services/api';
 import DataTable, { Column } from '../components/DataTable';
+import { useAdminOutletContext } from '../components/AdminLayout';
 
 const Messages: React.FC = () => {
+  const { refreshUnreadCount } = useAdminOutletContext();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -40,6 +42,7 @@ const Messages: React.FC = () => {
       if (selectedMessage?.id === message.id) {
         setSelectedMessage(updated);
       }
+      refreshUnreadCount();
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to update message');
     }
@@ -55,6 +58,7 @@ const Messages: React.FC = () => {
       if (selectedMessage?.id === id) {
         setSelectedMessage(null);
       }
+      refreshUnreadCount();
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Failed to delete message');
     } finally {
@@ -71,6 +75,7 @@ const Messages: React.FC = () => {
           prev.map((m) => (m.id === message.id ? updated : m))
         );
         setSelectedMessage(updated);
+        refreshUnreadCount();
       } catch {
         // Continue showing message even if update fails
       }
@@ -191,7 +196,6 @@ const Messages: React.FC = () => {
         )}
       />
 
-      {/* Message Detail Modal */}
       {selectedMessage && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">

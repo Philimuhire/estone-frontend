@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { adminLogin, googleLogin } from '../../services/api';
+import { adminLogin, googleLogin, API_BASE_URL } from '../../services/api';
 
 declare global {
   interface Window {
@@ -27,7 +27,9 @@ declare global {
   }
 }
 
-const GOOGLE_CLIENT_ID = '903620530335-3o1ju597guaelfak2glqou36t2c454vn.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+
+const CONNECTION_ERROR = `Cannot connect to server. Make sure the backend is reachable at ${API_BASE_URL}`;
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
@@ -62,7 +64,7 @@ const Login: React.FC = () => {
     } catch (err) {
       console.error('Google login error:', err);
       if (err instanceof TypeError && err.message === 'Failed to fetch') {
-        setError('Cannot connect to server. Make sure the backend is running on http://localhost:5000');
+        setError(CONNECTION_ERROR);
       } else {
         setError(err instanceof Error ? err.message : 'Google login failed');
       }
@@ -116,7 +118,7 @@ const Login: React.FC = () => {
     } catch (err) {
       console.error('Login error:', err);
       if (err instanceof TypeError && err.message === 'Failed to fetch') {
-        setError('Cannot connect to server. Make sure the backend is running on http://localhost:5000');
+        setError(CONNECTION_ERROR);
       } else {
         setError(err instanceof Error ? err.message : 'Login failed');
       }
@@ -211,14 +213,12 @@ const Login: React.FC = () => {
             </button>
           </form>
 
-          {/* Divider */}
           <div className="flex items-center my-6">
             <div className="flex-1 border-t border-gray-300"></div>
             <span className="px-4 text-sm text-gray-500">or</span>
             <div className="flex-1 border-t border-gray-300"></div>
           </div>
 
-          {/* Google Sign-In Button */}
           <div className="flex justify-center">
             <div ref={googleButtonRef}></div>
           </div>

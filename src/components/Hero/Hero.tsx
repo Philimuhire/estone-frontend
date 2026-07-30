@@ -37,7 +37,6 @@ const Hero: React.FC = () => {
       id="home"
       className="relative min-h-screen flex items-center justify-start overflow-hidden"
     >
-      {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
@@ -45,12 +44,10 @@ const Hero: React.FC = () => {
         }}
       />
 
-      {/* Dark Overlay for text readability */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
 
       <div className="w-full relative z-10 pt-32 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl text-left">
-          {/* Content */}
           <div
             className={`transition-all duration-1000 ${
               isVisible
@@ -58,7 +55,6 @@ const Hero: React.FC = () => {
                 : 'opacity-0 translate-y-10'
             }`}
           >
-            {/* Heading */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-white leading-tight mb-6">
               ESTONE{' '}
               <span className="text-primary-200">Design</span> And{' '}
@@ -80,7 +76,6 @@ const Hero: React.FC = () => {
               </span>
             </h1>
 
-            {/* Description */}
             <p className="text-lg sm:text-xl text-white/80 leading-relaxed mb-8 max-w-xl">
               Where prompt, precise service defines our success. We offer a full
               range of solutions, including building and infrastructure
@@ -88,7 +83,6 @@ const Hero: React.FC = () => {
               design, and landscape architecture.
             </p>
 
-            {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4 mb-12">
               <a
                 href="#services"
@@ -130,7 +124,6 @@ const Hero: React.FC = () => {
               </a>
             </div>
 
-            {/* Stats */}
             <div className="grid grid-cols-3 gap-4 sm:gap-6">
               {stats.map((stat, index) => (
                 <div

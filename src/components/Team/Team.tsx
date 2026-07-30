@@ -10,6 +10,15 @@ interface TeamMember {
   isCEO?: boolean;
 }
 
+// The CEO block is intentionally not driven by the API: it pairs a fixed photo and
+// message with the founder's name, so it must not follow whichever record happens to
+// carry the isCEO flag.
+const ceo = {
+  name: 'Eng. Daniel NDAGIJIMANA',
+  role: 'CEO & Founder',
+  image: '/images/team-leader.jpg',
+};
+
 const fallbackTeamMembers: TeamMember[] = [
   {
     name: 'Lead Engineer',
@@ -128,13 +137,11 @@ const Team: React.FC = () => {
       className="py-20 lg:py-28 bg-secondary-50 overflow-hidden"
     >
       <div className="container-custom">
-        {/* Section Header */}
         <div
           className={`text-center mb-16 transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {/* Badge */}
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-semibold rounded-full mb-6 shadow-lg shadow-primary-500/30">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
@@ -142,30 +149,26 @@ const Team: React.FC = () => {
             Our Team
           </div>
 
-          {/* Subtitle */}
           <p className="text-base sm:text-lg text-secondary-600 max-w-2xl mx-auto">
             Meet the passionate professionals driving innovation and excellence in civil engineering.
           </p>
         </div>
 
-        {/* CEO Featured Section */}
         <div
           className={`mb-20 transition-all duration-1000 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* CEO Image */}
             <div className="relative">
               <div className="rounded-3xl overflow-hidden shadow-2xl">
                 <img
-                  src="/images/team-leader.jpg"
-                  alt="Eng. Daniel NDAGIJIMANA - CEO & Founder"
+                  src={ceo.image}
+                  alt={`${ceo.name} - ${ceo.role}`}
                   className="w-full h-[400px] lg:h-[500px] object-cover object-top"
                 />
               </div>
 
-              {/* Name Badge */}
               <div className="mt-4">
                 <div className="bg-white rounded-2xl p-4 shadow-lg border border-secondary-100">
                   <div className="flex items-center gap-4">
@@ -175,19 +178,17 @@ const Team: React.FC = () => {
                       </svg>
                     </div>
                     <div>
-                      <p className="font-bold text-secondary-900">Eng. Daniel NDAGIJIMANA</p>
-                      <p className="text-sm text-primary-600 font-medium">CEO & Founder</p>
+                      <p className="font-bold text-secondary-900">{ceo.name}</p>
+                      <p className="text-sm text-primary-600 font-medium">{ceo.role}</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Decorative elements */}
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-primary-100 rounded-3xl -z-10" />
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary-600/10 rounded-3xl -z-10" />
             </div>
 
-            {/* CEO Content */}
             <div>
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-700 text-sm font-semibold rounded-full mb-6">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -196,10 +197,9 @@ const Team: React.FC = () => {
                 CEO Message
               </div>
 
-              {/* Quote */}
               <div className="relative mb-6">
                 <p className="text-secondary-600 leading-relaxed pl-6 italic">
-                  "As CEO and Founder, it's a pleasure to invite you into our world. At ESCO, we go beyond constructing buildings—we craft spaces that inspire, innovate, and endure. Every project we undertake reflects our dedication to excellence, integrity, and delivering beyond client expectations."
+                  "As CEO and Founder, it's a pleasure to invite you into our world. At ESTONE, we go beyond constructing buildings—we craft spaces that inspire, innovate, and endure. Every project we undertake reflects our dedication to excellence, integrity, and delivering beyond client expectations."
                 </p>
               </div>
 
@@ -211,7 +211,6 @@ const Team: React.FC = () => {
                 Join us as we reshape the construction landscape, one project at a time. Together, we can build a stronger, brighter, and more sustainable future.
               </p>
 
-              {/* Contact Info */}
               <div className="flex flex-wrap gap-4">
                 <a
                   href="https://www.linkedin.com/in/daniel-ndagijimana-126683362/?lipi=urn%3Ali%3Apage%3Ad_flagship3_feed%3BbtUxf8hvR%2F6RzUOQuI7voA%3D%3D"
@@ -227,7 +226,6 @@ const Team: React.FC = () => {
           </div>
         </div>
 
-        {/* Professional Team Section */}
         <div
           className={`mb-16 transition-all duration-1000 delay-400 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
@@ -240,7 +238,6 @@ const Team: React.FC = () => {
             </h3>
           </div>
 
-          {/* Team Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {teamMembers.map((member, index) => (
               <div
@@ -248,7 +245,6 @@ const Team: React.FC = () => {
                 className="group bg-white rounded-2xl overflow-hidden shadow-lg border border-secondary-100 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500"
                 style={{ transitionDelay: `${index * 100}ms` }}
               >
-                {/* Image */}
                 <div className="relative h-[180px] overflow-hidden">
                   <img
                     src={member.image}
@@ -258,7 +254,6 @@ const Team: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
-                {/* Content */}
                 <div className="p-4 text-center">
                   <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">
                     {member.role}
@@ -275,7 +270,6 @@ const Team: React.FC = () => {
           </div>
         </div>
 
-        {/* Values Section */}
         <div
           className={`transition-all duration-1000 delay-600 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
@@ -287,16 +281,13 @@ const Team: React.FC = () => {
                 key={index}
                 className="group relative bg-white rounded-2xl p-6 shadow-lg border border-secondary-100 overflow-hidden hover:shadow-xl hover:border-primary-200 transition-all duration-500"
               >
-                {/* Background gradient on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="relative flex items-start gap-4">
-                  {/* Icon */}
                   <div className="w-12 h-12 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center flex-shrink-0 group-hover:bg-primary-600 group-hover:text-white transition-all duration-500">
                     {value.icon}
                   </div>
 
-                  {/* Content */}
                   <div>
                     <h4 className="font-heading font-bold text-secondary-900 mb-2 group-hover:text-primary-700 transition-colors duration-300">
                       {value.title}

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Header, Hero, About, Services, Work, Team, Contact, Footer } from './components';
 import { ProjectDetail } from './components/ProjectDetail';
+import ScrollToHash from './components/ScrollToHash';
 import AdminRoutes from './admin';
 
 const HomePage: React.FC = () => {
@@ -24,6 +25,7 @@ const HomePage: React.FC = () => {
 const App: React.FC = () => {
   return (
     <BrowserRouter>
+      <ScrollToHash />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/project/:id" element={<ProjectDetail />} />

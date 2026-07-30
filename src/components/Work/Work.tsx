@@ -104,13 +104,11 @@ const Work: React.FC = () => {
       className="py-20 lg:py-28 bg-white overflow-hidden"
     >
       <div className="container-custom">
-        {/* Section Header */}
         <div
           className={`text-center mb-12 transition-all duration-700 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {/* Badge */}
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-semibold rounded-full mb-6 shadow-lg shadow-primary-500/30">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -118,12 +116,10 @@ const Work: React.FC = () => {
             Our Portfolio
           </div>
 
-          {/* Subtitle */}
           <p className="text-base sm:text-lg text-secondary-600 max-w-2xl mx-auto mb-10">
             Explore our portfolio of successfully completed construction and design projects that showcase our expertise and commitment to excellence.
           </p>
 
-          {/* Filter Buttons */}
           <div className="flex flex-wrap justify-center gap-3">
             {filters.map((filter) => (
               <button
@@ -141,83 +137,93 @@ const Work: React.FC = () => {
           </div>
         </div>
 
-        {/* Projects Grid */}
         <div
           className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 transition-all duration-700 delay-200 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {paginatedProjects.map((project, index) => (
-            <Link
-              key={project.id || index}
-              to={project.id ? `/project/${project.id}` : '#'}
-              className="group bg-white rounded-2xl overflow-hidden shadow-lg border border-secondary-100 cursor-pointer hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500"
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              {/* Image Container */}
-              <div className="relative h-[220px] overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                />
+          {paginatedProjects.map((project, index) => {
+            const cardClassName = `group bg-white rounded-2xl overflow-hidden shadow-lg border border-secondary-100 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500${
+              project.id ? ' cursor-pointer' : ''
+            }`;
 
-                {/* Subtle Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            const cardContent = (
+              <>
+                <div className="relative h-[220px] overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
 
-                {/* Category Badge */}
-                <div className="absolute top-4 left-4 z-10">
-                  <span className={`px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg ${
-                    project.category === 'residential'
-                      ? 'bg-green-500 text-white'
-                      : 'bg-blue-500 text-white'
-                  }`}>
-                    {project.categoryLabel}
-                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className={`px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg ${
+                      project.category === 'residential'
+                        ? 'bg-green-500 text-white'
+                        : 'bg-blue-500 text-white'
+                    }`}>
+                      {project.categoryLabel}
+                    </span>
+                  </div>
+
+                  <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-primary-600/20 rotate-45 translate-x-12 -translate-y-12 group-hover:bg-primary-600/40 transition-colors duration-500" />
+                  </div>
                 </div>
 
-                {/* Corner Accent */}
-                <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
-                  <div className="absolute top-0 right-0 w-24 h-24 bg-primary-600/20 rotate-45 translate-x-12 -translate-y-12 group-hover:bg-primary-600/40 transition-colors duration-500" />
-                </div>
-              </div>
-
-              {/* Content Below Image */}
-              <div className="p-5">
-                {/* Location */}
-                <div className="flex items-center gap-2 text-secondary-500 text-sm mb-2">
-                  <svg className="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span>{project.location}</span>
-                </div>
-
-                {/* Title */}
-                <h3 className="text-lg font-heading font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors duration-300">
-                  {project.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-secondary-600 text-sm leading-relaxed mb-4 line-clamp-2">
-                  {project.description}
-                </p>
-
-                {/* View Project Link */}
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-2 text-primary-600 font-medium text-sm group-hover:gap-3 transition-all duration-300">
-                    View Project
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <div className="p-5">
+                  <div className="flex items-center gap-2 text-secondary-500 text-sm mb-2">
+                    <svg className="w-4 h-4 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                  </span>
+                    <span>{project.location}</span>
+                  </div>
+
+                  <h3 className="text-lg font-heading font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors duration-300">
+                    {project.title}
+                  </h3>
+
+                  <p className="text-secondary-600 text-sm leading-relaxed mb-4 line-clamp-2">
+                    {project.description}
+                  </p>
+
+                  {project.id && (
+                    <div className="flex items-center justify-between">
+                      <span className="inline-flex items-center gap-2 text-primary-600 font-medium text-sm group-hover:gap-3 transition-all duration-300">
+                        View Project
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </span>
+                    </div>
+                  )}
                 </div>
+              </>
+            );
+
+            const cardStyle = { transitionDelay: `${index * 100}ms` };
+
+            // Fallback projects have no id, so there is nothing to navigate to.
+            return project.id ? (
+              <Link
+                key={project.id}
+                to={`/project/${project.id}`}
+                className={cardClassName}
+                style={cardStyle}
+              >
+                {cardContent}
+              </Link>
+            ) : (
+              <div key={`fallback-${index}`} className={cardClassName} style={cardStyle}>
+                {cardContent}
               </div>
-            </Link>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-2 mb-16">
             <button
@@ -256,20 +262,17 @@ const Work: React.FC = () => {
           </div>
         )}
 
-        {/* CTA Section */}
         <div
           className={`relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 rounded-3xl p-8 md:p-12 overflow-hidden transition-all duration-700 delay-400 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
           </div>
 
           <div className="relative grid md:grid-cols-2 gap-8 items-center">
-            {/* Left Content */}
             <div>
               <h3 className="text-2xl md:text-3xl font-heading font-bold text-white mb-4">
                 Ready to Start Your Project?
@@ -288,7 +291,6 @@ const Work: React.FC = () => {
               </a>
             </div>
 
-            {/* Right - Features */}
             <div className="grid grid-cols-3 gap-4">
               {[
                 { icon: (
