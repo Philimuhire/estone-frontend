@@ -5,6 +5,7 @@ import {
   updateProject,
   deleteProject,
   Project,
+  MAX_GALLERY_IMAGES,
 } from '../../services/api';
 import DataTable, { Column } from '../components/DataTable';
 
@@ -15,6 +16,10 @@ interface ProjectFormData {
   location: string;
   featured: boolean;
   image: File | null;
+  /** Existing gallery URLs still attached to the project. */
+  keptGallery: string[];
+  /** Newly picked gallery files, uploaded on save. */
+  newGallery: File[];
 }
 
 const initialFormData: ProjectFormData = {
@@ -24,6 +29,8 @@ const initialFormData: ProjectFormData = {
   location: '',
   featured: false,
   image: null,
+  keptGallery: [],
+  newGallery: [],
 };
 
 const Projects: React.FC = () => {
@@ -38,6 +45,15 @@ const Projects: React.FC = () => {
   const [isDeleting, setIsDeleting] = useState<number | null>(null);
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+  const [newGalleryPreviews, setNewGalleryPreviews] = useState<string[]>([]);
+
+  // Object URLs for picked gallery files; revoked when the selection changes.
+  useEffect(() => {
+    const urls = formData.newGallery.map((file) => URL.createObjectURL(file));
+    setNewGalleryPreviews(urls);
+    return () => urls.forEach((url) => URL.revokeObjectURL(url));
+  }, [formData.newGallery]);
 
   const loadProjects = async () => {
     try {
@@ -68,6 +84,8 @@ const Projects: React.FC = () => {
         location: project.location,
         featured: project.featured,
         image: null,
+        keptGallery: project.gallery || [],
+        newGallery: [],
       });
       setImagePreview(project.image);
     } else {
@@ -86,6 +104,32 @@ const Projects: React.FC = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
+    if (galleryInputRef.current) {
+      galleryInputRef.current.value = '';
+    }
+  };
+
+  const galleryCount = formData.keptGallery.length + formData.newGallery.length;
+  const gallerySlotsLeft = MAX_GALLERY_IMAGES - galleryCount;
+
+  const handleGalleryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length > gallerySlotsLeft) {
+      alert(`You can add ${gallerySlotsLeft} more gallery image${gallerySlotsLeft === 1 ? '' : 's'}. Only the first ${gallerySlotsLeft} were added.`);
+    }
+    setFormData((prev) => ({
+      ...prev,
+      newGallery: [...prev.newGallery, ...files.slice(0, gallerySlotsLeft)],
+    }));
+    e.target.value = '';
+  };
+
+  const removeKeptGalleryImage = (url: string) => {
+    setFormData((prev) => ({ ...prev, keptGallery: prev.keptGallery.filter((u) => u !== url) }));
+  };
+
+  const removeNewGalleryImage = (index: number) => {
+    setFormData((prev) => ({ ...prev, newGallery: prev.newGallery.filter((_, i) => i !== index) }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,6 +157,10 @@ const Projects: React.FC = () => {
       form.append('featured', String(formData.featured));
       if (formData.image) {
         form.append('image', formData.image);
+      }
+      formData.newGallery.forEach((file) => form.append('gallery', file));
+      if (editingProject) {
+        form.append('keepGallery', JSON.stringify(formData.keptGallery));
       }
 
       if (editingProject) {
@@ -221,7 +269,7 @@ const Projects: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Projects</h1>
           <p className="text-gray-600 mt-1">{projects.length} total projects</p>
@@ -234,7 +282,7 @@ const Projects: React.FC = () => {
         </button>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {['all', 'residential', 'commercial'].map((cat) => (
           <button
             key={cat}
@@ -334,7 +382,7 @@ const Projects: React.FC = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Category *
@@ -395,6 +443,55 @@ const Projects: React.FC = () => {
                         className="w-full max-w-md h-48 object-cover rounded-lg"
                       />
                     </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Gallery Images ({galleryCount}/{MAX_GALLERY_IMAGES})
+                  </label>
+                  <p className="text-xs text-gray-500 mb-2">
+                    Up to {MAX_GALLERY_IMAGES} extra photos shown on the project page.
+                  </p>
+
+                  {galleryCount > 0 && (
+                    <div className="grid grid-cols-3 gap-3 mb-3">
+                      {formData.keptGallery.map((url) => (
+                        <div key={url} className="relative">
+                          <img src={url} alt="Gallery" className="w-full h-24 object-cover rounded-lg" />
+                          <button
+                            type="button"
+                            onClick={() => removeKeptGalleryImage(url)}
+                            className="absolute top-1 right-1 px-2 py-0.5 bg-white/90 text-red-600 text-xs font-medium rounded hover:bg-white"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                      {newGalleryPreviews.map((url, index) => (
+                        <div key={url} className="relative">
+                          <img src={url} alt="New gallery" className="w-full h-24 object-cover rounded-lg ring-2 ring-amber-400" />
+                          <button
+                            type="button"
+                            onClick={() => removeNewGalleryImage(index)}
+                            className="absolute top-1 right-1 px-2 py-0.5 bg-white/90 text-red-600 text-xs font-medium rounded hover:bg-white"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {gallerySlotsLeft > 0 && (
+                    <input
+                      ref={galleryInputRef}
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      onChange={handleGalleryChange}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 outline-none"
+                    />
                   )}
                 </div>
               </div>

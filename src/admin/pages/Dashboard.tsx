@@ -187,7 +187,7 @@ const Dashboard: React.FC = () => {
           ) : (
             recentMessages.map((message) => (
               <div key={message.id} className="px-6 py-4 hover:bg-gray-50">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-wrap items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
                     {!message.isRead && (
                       <span className="w-2 h-2 bg-amber-500 rounded-full"></span>

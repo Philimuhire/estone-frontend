@@ -134,7 +134,7 @@ const Team: React.FC = () => {
     <section
       id="team"
       ref={sectionRef}
-      className="py-20 lg:py-28 bg-secondary-50 overflow-hidden"
+      className="pt-12 lg:pt-16 pb-20 lg:pb-28 bg-canvas-alt overflow-hidden"
     >
       <div className="container-custom">
         <div
@@ -143,9 +143,6 @@ const Team: React.FC = () => {
           }`}
         >
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-semibold rounded-full mb-6 shadow-lg shadow-primary-500/30">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
-            </svg>
             Our Team
           </div>
 
@@ -160,7 +157,7 @@ const Team: React.FC = () => {
           }`}
         >
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="relative">
+            <div>
               <div className="rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src={ceo.image}
@@ -169,36 +166,19 @@ const Team: React.FC = () => {
                 />
               </div>
 
-              <div className="mt-4">
-                <div className="bg-white rounded-2xl p-4 shadow-lg border border-secondary-100">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-primary-600 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-bold text-secondary-900">{ceo.name}</p>
-                      <p className="text-sm text-primary-600 font-medium">{ceo.role}</p>
-                    </div>
-                  </div>
-                </div>
+              <div className="mt-4 bg-white rounded-2xl px-6 py-4 shadow-lg border border-secondary-100 border-l-4 border-l-primary-600">
+                <p className="text-lg font-heading font-bold text-secondary-900">{ceo.name}</p>
+                <p className="text-sm text-primary-600 font-medium">{ceo.role}</p>
               </div>
-
-              <div className="absolute -top-4 -left-4 w-24 h-24 bg-primary-100 rounded-3xl -z-10" />
-              <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary-600/10 rounded-3xl -z-10" />
             </div>
 
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 text-primary-700 text-sm font-semibold rounded-full mb-6">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
-                </svg>
+              <p className="text-xs font-semibold uppercase tracking-wider text-primary-600 mb-3">
                 CEO Message
-              </div>
+              </p>
 
-              <div className="relative mb-6">
-                <p className="text-secondary-600 leading-relaxed pl-6 italic">
+              <div className="mb-6 border-l-4 border-primary-600 pl-6">
+                <p className="text-lg text-secondary-800 leading-relaxed italic">
                   "As CEO and Founder, it's a pleasure to invite you into our world. At ESTONE, we go beyond constructing buildings—we craft spaces that inspire, innovate, and endure. Every project we undertake reflects our dedication to excellence, integrity, and delivering beyond client expectations."
                 </p>
               </div>
@@ -232,20 +212,18 @@ const Team: React.FC = () => {
           }`}
         >
           <div className="text-center mb-10">
-            <h3 className="text-xl lg:text-2xl font-heading font-bold text-secondary-900 flex items-center justify-center gap-3">
-              <span className="w-12 h-1 bg-primary-600 rounded-full" />
+            <h3 className="text-2xl lg:text-3xl font-heading font-bold text-secondary-900">
               Our Professional Team
             </h3>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="flex flex-wrap justify-center gap-6">
             {teamMembers.map((member, index) => (
               <div
                 key={member.id || index}
-                className="group bg-white rounded-2xl overflow-hidden shadow-lg border border-secondary-100 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500"
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className="group flex flex-col w-full sm:w-[calc(50%-12px-1px)] md:w-[calc(33.333%-16px-1px)] lg:w-[calc(25%-18px-1px)] bg-white rounded-2xl overflow-hidden shadow-lg border border-secondary-100 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500"
               >
-                <div className="relative h-[180px] overflow-hidden">
+                <div className="relative aspect-[4/3] sm:aspect-[4/5] overflow-hidden">
                   <img
                     src={member.image}
                     alt={member.name}
@@ -254,14 +232,14 @@ const Team: React.FC = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
-                <div className="p-4 text-center">
-                  <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-1">
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-2">
                     {member.role}
                   </p>
-                  <h4 className="font-heading font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors duration-300">
+                  <h4 className="text-xl font-heading font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors duration-300">
                     {member.name}
                   </h4>
-                  <p className="text-xs text-secondary-500 leading-relaxed">
+                  <p className="text-sm text-secondary-600 leading-relaxed">
                     {member.description}
                   </p>
                 </div>

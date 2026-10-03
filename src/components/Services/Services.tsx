@@ -5,133 +5,48 @@ interface ServiceItem {
   id?: number;
   title: string;
   description: string;
-  icon: React.ReactNode;
   features: string[];
 }
-
-/**
- * Services managed in the admin panel carry no icon, so one is resolved from the
- * title keywords below. `generic` covers anything that doesn't match.
- */
-const icons = {
-  civil: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-    </svg>
-  ),
-  road: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-    </svg>
-  ),
-  house: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-    </svg>
-  ),
-  training: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-    </svg>
-  ),
-  structural: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-    </svg>
-  ),
-  gis: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  ),
-  interior: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-    </svg>
-  ),
-  landscape: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-    </svg>
-  ),
-  generic: (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-    </svg>
-  ),
-};
-
-const iconKeywords: [string, keyof typeof icons][] = [
-  ['road', 'road'],
-  ['highway', 'road'],
-  ['house', 'house'],
-  ['home', 'house'],
-  ['residential', 'house'],
-  ['training', 'training'],
-  ['software', 'training'],
-  ['structural', 'structural'],
-  ['gis', 'gis'],
-  ['remote sensing', 'gis'],
-  ['survey', 'gis'],
-  ['interior', 'interior'],
-  ['landscape', 'landscape'],
-  ['civil', 'civil'],
-  ['construction', 'civil'],
-];
-
-const resolveIcon = (title: string): React.ReactNode => {
-  const lowerTitle = title.toLowerCase();
-  const match = iconKeywords.find(([keyword]) => lowerTitle.includes(keyword));
-  return icons[match ? match[1] : 'generic'];
-};
 
 const fallbackServices: ServiceItem[] = [
   {
     title: 'All Civil Related Works Design & Construction',
     description: 'Comprehensive civil engineering solutions including design, analysis, and construction of infrastructure projects with meticulous attention to detail and quality.',
-    icon: icons.civil,
     features: ['Infrastructure Design', 'Project Management', 'Quality Assurance', 'Site Supervision'],
   },
   {
     title: 'Road Design & Construction',
     description: 'Expert highway and public infrastructure development including road design, construction supervision, and maintenance planning for durable transportation networks.',
-    icon: icons.road,
     features: ['Highway Design', 'Traffic Engineering', 'Pavement Analysis', 'Construction Management'],
   },
   {
     title: 'House Design & Construction',
     description: 'Custom residential design and construction services from concept to completion, ensuring your dream home meets the highest standards of quality and sustainability.',
-    icon: icons.house,
     features: ['Architectural Design', 'Interior Planning', 'Construction Supervision', 'Quality Control'],
   },
   {
     title: 'Engineering Software Trainings',
     description: 'Professional training programs in industry-standard engineering software to enhance your team\'s technical capabilities and project efficiency.',
-    icon: icons.training,
     features: ['CAD Training', 'Structural Software', 'GIS Training', 'Professional Certification'],
   },
   {
     title: 'Structural Analysis',
     description: 'Advanced structural analysis and engineering solutions using cutting-edge software and methodologies to ensure safety, efficiency, and compliance.',
-    icon: icons.structural,
     features: ['Load Analysis', 'Seismic Design', 'Foundation Design', 'Structural Optimization'],
   },
   {
     title: 'GIS & Remote Sensing',
     description: 'Geographic Information Systems and remote sensing services for spatial analysis, mapping, and data-driven decision making in engineering projects.',
-    icon: icons.gis,
     features: ['Spatial Analysis', 'Land Surveying', 'Environmental Mapping', 'Data Visualization'],
   },
   {
     title: 'Interior Design',
     description: 'Professional interior design services that transform spaces into functional, aesthetic environments that reflect your vision and enhance user experience.',
-    icon: icons.interior,
     features: ['Space Planning', 'Material Selection', 'Lighting Design', 'Project Coordination'],
   },
   {
     title: 'Landscape Architecture',
     description: 'Sustainable landscape design solutions that harmonize natural elements with built environments for enhanced aesthetics and functionality.',
-    icon: icons.landscape,
     features: ['Site Planning', 'Environmental Design', 'Sustainable Solutions', 'Maintenance Planning'],
   },
 ];
@@ -168,7 +83,6 @@ const Services: React.FC = () => {
             id: s.id,
             title: s.title,
             description: s.description,
-            icon: resolveIcon(s.title),
             features: s.features || [],
           }));
 
@@ -187,7 +101,7 @@ const Services: React.FC = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="py-20 lg:py-28 bg-secondary-50 overflow-hidden"
+      className="pt-12 lg:pt-16 pb-20 lg:pb-28 bg-canvas-alt overflow-hidden"
     >
       <div className="container-custom">
         <div
@@ -196,9 +110,6 @@ const Services: React.FC = () => {
           }`}
         >
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-semibold rounded-full mb-6 shadow-lg shadow-primary-500/30">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
             Our Services
           </div>
 
@@ -221,10 +132,6 @@ const Services: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div className="relative">
-                <div className="w-14 h-14 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center mb-4 group-hover:bg-primary-600 group-hover:text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                  {service.icon}
-                </div>
-
                 <h3 className="text-lg font-heading font-bold text-secondary-900 mb-3 group-hover:text-primary-700 transition-colors duration-300">
                   {service.title}
                 </h3>

@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProjects } from '../../services/api';
 
+const HERO_IMAGES = [
+  '/images/project-commercial-building-2.jpg',
+  '/images/project-modern-residence-2.jpg',
+  '/images/project-commercial-building-1.jpg',
+];
+
+const SLIDE_INTERVAL_MS = 5000;
+
 interface StatItem {
   value: string;
   label: string;
@@ -10,6 +18,28 @@ interface StatItem {
 const Hero: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [projectCount, setProjectCount] = useState(0);
+  const [heroImages, setHeroImages] = useState(HERO_IMAGES);
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  // Preload so each crossfade is smooth, and drop any image that fails to load
+  // rather than fading to an empty slide.
+  useEffect(() => {
+    HERO_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.onerror = () => setHeroImages((current) => current.filter((s) => s !== src));
+      img.src = src;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (heroImages.length < 2) return;
+
+    const interval = setInterval(() => {
+      setActiveSlide((current) => (current + 1) % heroImages.length);
+    }, SLIDE_INTERVAL_MS);
+
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
 
   useEffect(() => {
     setIsVisible(true);
@@ -37,12 +67,15 @@ const Hero: React.FC = () => {
       id="home"
       className="relative min-h-screen flex items-center justify-start overflow-hidden"
     >
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('/images/project-commercial-building-2.jpg')`,
-        }}
-      />
+      {heroImages.map((src, index) => (
+        <div
+          key={src}
+          className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ease-in-out ${
+            index === activeSlide % heroImages.length ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{ backgroundImage: `url('${src}')` }}
+        />
+      ))}
 
       <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
 

@@ -25,7 +25,7 @@ const About: React.FC = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="py-20 lg:py-28 bg-gradient-to-b from-white to-secondary-50 overflow-hidden"
+      className="pt-12 lg:pt-16 bg-gradient-to-b from-canvas to-canvas-alt overflow-hidden"
     >
       <div className="container-custom">
         <div
@@ -34,9 +34,6 @@ const About: React.FC = () => {
           }`}
         >
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-semibold rounded-full mb-6 shadow-lg shadow-primary-500/30">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
             About ESTONE
           </div>
 
@@ -176,14 +173,7 @@ const About: React.FC = () => {
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-white/10 to-transparent" />
 
             <div className="relative">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 group-hover:bg-white/30 transition-all duration-500">
-                  <svg className="w-8 h-8 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-heading font-bold group-hover:tracking-wide transition-all duration-300">Our Mission</h3>
-              </div>
+              <h3 className="text-2xl font-heading font-bold mb-6 group-hover:tracking-wide transition-all duration-300">Our Mission</h3>
               <p className="text-white/90 leading-relaxed group-hover:text-white transition-colors duration-300">
                 We are committed to exceeding client expectations by upholding integrity, fostering collaboration, and prioritizing sustainability. With expertise spanning construction, structural analysis, GIS, interior design, and beyond, we aim to empower clients, enrich communities, and deliver lasting value in every project.
               </p>
@@ -193,22 +183,10 @@ const About: React.FC = () => {
           </div>
 
           <div className="group relative bg-white rounded-3xl p-8 shadow-xl border border-secondary-100 overflow-hidden cursor-pointer hover:shadow-2xl hover:shadow-primary-200/50 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500">
-            <div className="absolute inset-0 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-primary-600 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
-              <div className="absolute bottom-0 left-0 w-32 h-32 bg-primary-600 rounded-full translate-y-1/2 -translate-x-1/2 group-hover:scale-150 transition-transform duration-700" />
-            </div>
-
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-t from-primary-50 to-transparent" />
 
             <div className="relative">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-16 h-16 rounded-2xl bg-primary-100 text-primary-600 flex items-center justify-center group-hover:scale-110 group-hover:-rotate-6 group-hover:bg-primary-600 group-hover:text-white transition-all duration-500">
-                  <svg className="w-8 h-8 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-heading font-bold text-secondary-900 group-hover:text-primary-700 group-hover:tracking-wide transition-all duration-300">Our Objectives</h3>
-              </div>
+              <h3 className="text-2xl font-heading font-bold text-secondary-900 mb-6 group-hover:text-primary-700 group-hover:tracking-wide transition-all duration-300">Our Objectives</h3>
               <p className="text-secondary-600 leading-relaxed group-hover:text-secondary-700 transition-colors duration-300">
                 We put our clients first. By combining creativity, technology, and a commitment to sustainable practices, we bring every project to life with care and precision. Our team is always learning and growing, so we can deliver great results that meet your needs and match industry best practices.
               </p>

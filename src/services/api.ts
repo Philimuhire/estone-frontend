@@ -7,10 +7,14 @@ export interface Project {
   category: 'residential' | 'commercial';
   location: string;
   image: string;
+  /** Extra photos for the project page. Optional so older API responses still type-check. */
+  gallery?: string[];
   featured: boolean;
   createdAt: string;
   updatedAt: string;
 }
+
+export const MAX_GALLERY_IMAGES = 3;
 
 export interface TeamMember {
   id: number;

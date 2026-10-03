@@ -66,7 +66,7 @@ const Contact: React.FC = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="py-20 lg:py-28 bg-gradient-to-b from-white to-secondary-50 overflow-hidden"
+      className="pt-12 lg:pt-16 pb-20 lg:pb-28 bg-gradient-to-b from-canvas to-canvas-alt overflow-hidden"
     >
       <div className="container-custom">
         <div
@@ -75,9 +75,6 @@ const Contact: React.FC = () => {
           }`}
         >
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-600 to-primary-500 text-white text-sm font-semibold rounded-full mb-6 shadow-lg shadow-primary-500/30">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
             Contact Us
           </div>
 
@@ -136,9 +133,9 @@ const Contact: React.FC = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <div>
+              <div className="min-w-0">
                 <p className="font-semibold text-secondary-900 mb-1">Email</p>
-                <p className="text-sm text-secondary-600">estonedesigningandcons@gmail.com</p>
+                <p className="text-sm text-secondary-600 break-all">estonedesigningandcons@gmail.com</p>
               </div>
             </a>
 
@@ -150,11 +147,6 @@ const Contact: React.FC = () => {
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2" />
-          </div>
-
           <div className="relative flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <h3 className="text-2xl md:text-3xl font-heading font-bold text-white mb-2">

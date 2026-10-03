@@ -80,10 +80,12 @@ const Login: React.FC = () => {
           client_id: GOOGLE_CLIENT_ID,
           callback: handleGoogleCallback,
         });
+        // Google renders at a fixed pixel width (max 400), so fit it to the card on small phones.
+        const availableWidth = googleButtonRef.current.parentElement?.clientWidth || 400;
         window.google.accounts.id.renderButton(googleButtonRef.current, {
           theme: 'outline',
           size: 'large',
-          width: 400,
+          width: Math.min(400, availableWidth),
           text: 'signin_with',
         });
       }

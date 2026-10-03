@@ -32,6 +32,12 @@ module.exports = {
           800: '#1e293b',
           900: '#0f172a',
         },
+        // Off-white page backgrounds: `canvas` for the light sections, `canvas-alt` for the
+        // alternating ones, so white cards still stand out on top of them.
+        canvas: {
+          DEFAULT: '#f6f8fb',
+          alt: '#eef2f7',
+        },
       },
       fontFamily: {
         sans: ['Outfit', 'system-ui', '-apple-system', 'sans-serif'],
