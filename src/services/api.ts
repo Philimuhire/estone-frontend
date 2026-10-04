@@ -67,11 +67,12 @@ export interface Admin {
   createdAt: string;
 }
 
+/** All fields are required by the backend's contact validators. */
 export interface ContactFormData {
   fullName: string;
-  email?: string;
-  phone?: string;
-  message?: string;
+  email: string;
+  phone: string;
+  message: string;
 }
 
 export interface ApiResponse<T> {
@@ -157,7 +158,11 @@ export const submitContactForm = async (formData: ContactFormData): Promise<ApiR
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || 'Failed to submit contact form');
+      // Validation errors list each failing field; show those rather than "Validation failed".
+      const fieldMessages: string[] = Array.isArray(data.errors)
+        ? Array.from(new Set(data.errors.map((e: { message: string }) => e.message)))
+        : [];
+      throw new Error(fieldMessages.length > 0 ? fieldMessages.join('. ') : data.message || 'Failed to submit contact form');
     }
 
     return { success: true, data, message: 'Message sent successfully!' };

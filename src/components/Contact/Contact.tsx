@@ -191,6 +191,8 @@ const Contact: React.FC = () => {
                   onChange={handleInputChange}
                   placeholder="Your full name"
                   required
+                  minLength={2}
+                  maxLength={100}
                   className="w-full px-4 py-3 rounded-xl border border-secondary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all duration-300"
                 />
               </div>
@@ -198,7 +200,7 @@ const Contact: React.FC = () => {
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-secondary-700 mb-2">
-                    Email Address
+                    Email Address <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
@@ -207,12 +209,14 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="your.email@gmail.com"
+                    required
+                    maxLength={254}
                     className="w-full px-4 py-3 rounded-xl border border-secondary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all duration-300"
                   />
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-secondary-700 mb-2">
-                    Phone Number
+                    Phone Number <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
@@ -221,6 +225,10 @@ const Contact: React.FC = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder="+250 xxx xxx xxx"
+                    required
+                    minLength={10}
+                    maxLength={20}
+                    title="Phone number must be between 10 and 20 characters"
                     className="w-full px-4 py-3 rounded-xl border border-secondary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all duration-300"
                   />
                 </div>
@@ -228,14 +236,17 @@ const Contact: React.FC = () => {
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-secondary-700 mb-2">
-                  Message
+                  Message <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Type your message"
+                  placeholder="Type your message (at least 10 characters)"
+                  required
+                  minLength={10}
+                  maxLength={2000}
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl border border-secondary-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 outline-none transition-all duration-300 resize-none"
                 />
