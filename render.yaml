@@ -1,0 +1,29 @@
+# Render Blueprint for the public site. Create it from the Render dashboard with
+# New > Blueprint, pointing at this repository.
+services:
+  - type: web
+    name: estone-frontend
+    runtime: static
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      # Baked into the bundle at build time; change it and redeploy to point elsewhere.
+      - key: API_BASE_URL
+        value: https://estone-web-backend.onrender.com/api
+    # The app uses client-side routes (/projects, /project/:id, /admin/...), so any path
+    # that isn't a real file must serve index.html. Existing files are served first.
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      # Bundles have a content hash in their name, so they can be cached forever.
+      - path: /bundle.*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /index.html
+        name: Cache-Control
+        value: no-cache
+    domains:
+      - estone.rw
+      - www.estone.rw

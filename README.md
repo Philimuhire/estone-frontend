@@ -63,3 +63,16 @@ Left alone, a production build looks for the API at `/api` on the same domain, w
 both sit behind the same proxy. The Google sign-in client ID can be swapped the same way with
 `GOOGLE_CLIENT_ID`. Since both are compiled into the bundle, changing either one means
 rebuilding.
+
+## Deploying
+
+The site is deployed as a Render static site from [render.yaml](render.yaml): in the Render
+dashboard choose **New > Blueprint** and select this repository. The blueprint builds with
+`API_BASE_URL=https://estone-web-backend.onrender.com/api`, rewrites every unknown path to
+`index.html` so routes like `/projects` work on refresh, and attaches `estone.rw` and
+`www.estone.rw`.
+
+For the live site to work, the backend's `FRONTEND_URL` must be `https://estone.rw` (it is the
+only origin CORS allows), and `https://estone.rw` must be listed as an authorised JavaScript
+origin on the Google OAuth client used for admin sign-in.
+

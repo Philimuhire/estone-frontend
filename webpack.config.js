@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const DEFAULT_GOOGLE_CLIENT_ID =
   '903620530335-3o1ju597guaelfak2glqou36t2c454vn.apps.googleusercontent.com';
@@ -55,6 +56,17 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './public/index.html',
         favicon: './public/favicon.ico',
+      }),
+      // Images in public/ are referenced by URL (e.g. '/images/company-logo.png') rather than
+      // imported, so webpack would not emit them. The dev server serves public/ directly;
+      // production needs them copied into dist/.
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: 'public',
+            globOptions: { ignore: ['**/index.html', '**/favicon.ico'] },
+          },
+        ],
       }),
       new webpack.DefinePlugin({
         'process.env.API_BASE_URL': JSON.stringify(apiBaseUrl),
