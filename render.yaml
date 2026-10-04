@@ -10,6 +10,9 @@ services:
       # Baked into the bundle at build time; change it and redeploy to point elsewhere.
       - key: API_BASE_URL
         value: https://estone-web-backend.onrender.com/api
+      # Must match GOOGLE_CLIENT_ID on the backend, which verifies the sign-in token's audience.
+      - key: GOOGLE_CLIENT_ID
+        value: 119207245132-lvund6pai0duaj668susvv16og66j3t2.apps.googleusercontent.com
     # The app uses client-side routes (/projects, /project/:id, /admin/...), so any path
     # that isn't a real file must serve index.html. Existing files are served first.
     routes:

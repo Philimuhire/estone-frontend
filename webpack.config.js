@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const DEFAULT_GOOGLE_CLIENT_ID =
-  '903620530335-3o1ju597guaelfak2glqou36t2c454vn.apps.googleusercontent.com';
+  '119207245132-lvund6pai0duaj668susvv16og66j3t2.apps.googleusercontent.com';
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
