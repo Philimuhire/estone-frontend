@@ -58,7 +58,6 @@ const Hero: React.FC = () => {
 
   const stats: StatItem[] = [
     { value: String(projectCount), suffix: '+', label: 'Projects Completed' },
-    { value: '3', suffix: '+', label: 'Satisfied Clients' },
     { value: '2', suffix: '+', label: 'Years Experience' },
   ];
 
@@ -157,7 +156,7 @@ const Hero: React.FC = () => {
               </a>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-md">
               {stats.map((stat, index) => (
                 <div
                   key={index}
