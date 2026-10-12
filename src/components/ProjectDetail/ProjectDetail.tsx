@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { fetchProject, fetchProjects, Project } from '../../services/api';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import ProjectGallery from './ProjectGallery';
+import ProjectMedia from './ProjectMedia';
 import { ProjectCard, toPortfolioProject } from '../Work/portfolio';
 
 const capitalize = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
@@ -76,97 +76,90 @@ const ProjectDetail: React.FC = () => {
   }
 
   const categoryLabel = capitalize(project.category);
+  const gallery = project.gallery || [];
   const details = [
     { label: 'Category', value: categoryLabel },
     { label: 'Location', value: project.location },
-    {
-      label: 'Completed',
-      value: new Date(project.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' }),
-    },
   ];
+
+  const overview = (
+    <div>
+      <p className="text-xs font-semibold uppercase tracking-wider text-primary-600 mb-3">
+        Project Overview
+      </p>
+      <h2 className="text-xl md:text-2xl font-heading font-bold text-secondary-900 mb-4">
+        About this project
+      </h2>
+      <p className="text-secondary-600 leading-relaxed whitespace-pre-line">
+        {project.description}
+      </p>
+    </div>
+  );
+
+  const detailsCard = (
+    <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-secondary-100">
+      <h3 className="text-lg font-heading font-bold text-secondary-900 mb-5">Project Details</h3>
+
+      <dl className="divide-y divide-secondary-100">
+        {details.map((detail) => (
+          <div key={detail.label} className="flex items-baseline justify-between gap-4 py-3.5 first:pt-0">
+            <dt className="text-xs font-semibold uppercase tracking-wider text-secondary-500">
+              {detail.label}
+            </dt>
+            <dd className="font-medium text-secondary-900 text-right">{detail.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <Link
+        to="/#contact"
+        className="mt-6 w-full inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-semibold rounded-full shadow-md shadow-primary-500/30 hover:bg-primary-700 transition-colors duration-300"
+      >
+        Start Your Project
+      </Link>
+    </div>
+  );
 
   return (
     <div className="min-h-screen">
       <Header forceSolid />
 
-      <section className="relative h-[60vh] md:h-[75vh] min-h-[420px] mt-20">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10" />
-
-        <div className="absolute inset-x-0 bottom-0 pb-10 md:pb-14">
-          <div className="container-custom">
-            <span className="inline-block px-3 py-1.5 rounded-full text-xs font-semibold bg-white/95 text-primary-700 shadow-md mb-4">
+      <main className="pt-28 md:pt-32 pb-16 md:pb-20">
+        <div className="container-custom">
+          <div className="mb-8 md:mb-10">
+            <span className="inline-block px-3 py-1.5 rounded-full text-xs font-semibold bg-primary-50 text-primary-700 mb-4">
               {categoryLabel}
             </span>
-            <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] font-heading font-bold text-white leading-tight max-w-4xl mb-3">
+            <h1 className="text-2xl md:text-4xl font-heading font-bold text-secondary-900 leading-tight max-w-4xl mb-2">
               {project.title}
             </h1>
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary-200">
+            <p className="text-sm font-semibold uppercase tracking-wider text-primary-600">
               {project.location}
             </p>
           </div>
-        </div>
-      </section>
 
-      <section className="py-16 md:py-20">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-3 gap-10 lg:gap-16">
-            <div className="lg:col-span-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-primary-600 mb-3">
-                Project Overview
-              </p>
-              <h2 className="text-xl md:text-2xl font-heading font-bold text-secondary-900 mb-4">
-                About this project
-              </h2>
-              <p className="text-secondary-600 leading-relaxed whitespace-pre-line mb-10">
-                {project.description}
-              </p>
-
-              <ProjectGallery images={project.gallery || []} title={project.title} />
-            </div>
-
-            <aside className="lg:col-span-1">
-              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-lg border border-secondary-100 lg:sticky lg:top-28">
-                <div className="flex items-center justify-between gap-3 mb-6">
-                  <h3 className="text-lg font-heading font-bold text-secondary-900">Project Details</h3>
-                  {project.featured && (
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-primary-50 text-primary-700">
-                      Featured
-                    </span>
-                  )}
-                </div>
-
-                <dl className="divide-y divide-secondary-100">
-                  {details.map((detail) => (
-                    <div key={detail.label} className="py-4 first:pt-0">
-                      <dt className="text-xs font-semibold uppercase tracking-wider text-secondary-500 mb-1">
-                        {detail.label}
-                      </dt>
-                      <dd className="font-medium text-secondary-900">{detail.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-
-                <div className="mt-6 pt-6 border-t border-secondary-100">
-                  <p className="text-sm text-secondary-600 leading-relaxed mb-4">
-                    Planning something similar? Let's talk about your project.
-                  </p>
-                  <Link
-                    to="/#contact"
-                    className="w-full inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-semibold rounded-full shadow-md shadow-primary-500/30 hover:bg-primary-700 transition-colors duration-300"
-                  >
-                    Start Your Project
-                  </Link>
-                </div>
+          {/* With gallery photos the right half holds them and the text follows below;
+              without, the overview and details sit beside the main photo instead. */}
+          <ProjectMedia
+            image={project.image}
+            gallery={gallery}
+            title={project.title}
+            fallback={
+              <div className="flex flex-col gap-8 lg:pl-6 pt-4 lg:pt-0">
+                {overview}
+                {detailsCard}
               </div>
-            </aside>
-          </div>
+            }
+          />
+
+          {gallery.length > 0 && (
+            <div className="grid lg:grid-cols-3 gap-10 lg:gap-16 mt-12 md:mt-16">
+              <div className="lg:col-span-2">{overview}</div>
+              <aside>{detailsCard}</aside>
+            </div>
+          )}
         </div>
-      </section>
+      </main>
 
       {relatedProjects.length > 0 && (
         <section className="py-16 md:py-20 bg-canvas-alt">
