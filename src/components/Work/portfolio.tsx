@@ -15,26 +15,10 @@ export interface PortfolioProject {
   description: string;
   location: string;
   image: string;
+  featured: boolean;
+  /** Number of extra photos beyond the main image. */
+  galleryCount: number;
 }
-
-const fallbackProjects: PortfolioProject[] = [
-  {
-    title: 'Modern Residential Complex',
-    category: 'residential',
-    categoryLabel: 'Residential',
-    description: 'Contemporary multi-story residential building with modern architectural elements and sustainable design features.',
-    location: 'Kigali, Rwanda',
-    image: '/images/hero-engineering.jpg',
-  },
-  {
-    title: 'Commercial Office Complex',
-    category: 'commercial',
-    categoryLabel: 'Commercial',
-    description: 'Multi-story commercial building with brick facade and glass elements, designed for optimal workspace functionality.',
-    location: 'Kigali, Rwanda',
-    image: '/images/project-commercial-building-2.jpg',
-  },
-];
 
 export const projectFilters = [
   { key: 'all', label: 'All Projects' },
@@ -53,32 +37,53 @@ export const toPortfolioProject = (p: ApiProject): PortfolioProject => ({
   description: p.description,
   location: p.location,
   image: p.image,
+  featured: p.featured,
+  galleryCount: p.gallery?.length ?? 0,
 });
 
 export const filterProjects = (projects: PortfolioProject[], filter: string): PortfolioProject[] =>
   filter === 'all' ? projects : projects.filter((p) => p.category === filter);
 
-/** Projects from the API, or the built-in examples if the API is empty or unreachable. */
-export const usePortfolioProjects = (): PortfolioProject[] => {
-  const [projects, setProjects] = useState<PortfolioProject[]>(fallbackProjects);
+export interface PortfolioProjectsState {
+  projects: PortfolioProject[];
+  /** True while the first fetch is in flight, so callers can show a skeleton. */
+  loading: boolean;
+}
+
+/** Projects fetched from the API. Empty while loading or if none exist. */
+export const usePortfolioProjects = (): PortfolioProjectsState => {
+  const [projects, setProjects] = useState<PortfolioProject[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let active = true;
+
     const loadProjects = async () => {
       try {
         const data = await fetchProjects();
-        const mappedProjects = data.map(toPortfolioProject);
-        if (mappedProjects.length > 0) {
-          setProjects(mappedProjects);
+        if (active) {
+          setProjects(data.map(toPortfolioProject));
         }
       } catch (error) {
-        console.error('Failed to load projects, using fallback data');
+        console.error('Failed to load projects');
+        if (active) {
+          setProjects([]);
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
       }
     };
 
     loadProjects();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
-  return projects;
+  return { projects, loading };
 };
 
 interface ProjectFiltersProps {
@@ -87,15 +92,15 @@ interface ProjectFiltersProps {
 }
 
 export const ProjectFilters: React.FC<ProjectFiltersProps> = ({ active, onChange }) => (
-  <div className="inline-flex justify-center gap-1 p-1.5 bg-white rounded-full border border-secondary-200 shadow-sm">
+  <div className="inline-flex justify-center gap-6 sm:gap-10 border-b border-secondary-200">
     {projectFilters.map((filter) => (
       <button
         key={filter.key}
         onClick={() => onChange(filter.key)}
-        className={`px-3 sm:px-5 py-2 rounded-full font-medium text-xs sm:text-sm whitespace-nowrap transition-colors duration-300 ${
+        className={`relative -mb-px pb-3 text-sm sm:text-base font-medium whitespace-nowrap border-b-2 transition-colors duration-300 ${
           active === filter.key
-            ? 'bg-primary-600 text-white shadow-md shadow-primary-500/30'
-            : 'text-secondary-600 hover:text-primary-700 hover:bg-primary-50'
+            ? 'border-primary-600 text-primary-700'
+            : 'border-transparent text-secondary-500 hover:text-secondary-900'
         }`}
       >
         {filter.label}
@@ -107,65 +112,80 @@ export const ProjectFilters: React.FC<ProjectFiltersProps> = ({ active, onChange
 interface ProjectCardProps {
   project: PortfolioProject;
   style?: React.CSSProperties;
+  /** Sizing classes. Defaults to a 4:3 tile; grid layouts pass spans and let the row height decide. */
+  className?: string;
+  /** Larger title for the featured tile. */
+  large?: boolean;
 }
 
-export const ProjectCard: React.FC<ProjectCardProps> = ({ project, style }) => {
-  const className = `group flex flex-col bg-white rounded-2xl overflow-hidden shadow-lg border border-secondary-100 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500${
-    project.id ? ' cursor-pointer' : ''
-  }`;
+/**
+ * Image-led card: the photo fills the tile and the text sits on a dark fade at the
+ * bottom. On large screens the description slides up on hover; on touch screens it
+ * is always shown.
+ */
+export const ProjectCard: React.FC<ProjectCardProps> = ({ project, style, className = 'aspect-[4/3]', large = false }) => {
+  const wrapperClass = `group relative block overflow-hidden rounded-2xl bg-secondary-200 shadow-md hover:shadow-2xl transition-shadow duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 ${className}`;
 
   const content = (
     <>
-      <div className="relative aspect-[4/3] overflow-hidden">
-        <img
-          src={project.image}
-          alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-        />
+      <img
+        src={project.image}
+        alt={project.title}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/5" />
 
-        <div className="absolute top-4 left-4 z-10">
-          <span className="px-3 py-1.5 rounded-full text-xs font-semibold bg-white/95 text-primary-700 shadow-md">
-            {project.categoryLabel}
+      <div className="absolute top-4 left-4 right-4 flex items-start justify-between gap-3">
+        <span className="px-3 py-1 rounded-full text-xs font-semibold bg-white/90 text-secondary-900 backdrop-blur-sm">
+          {project.categoryLabel}
+        </span>
+        {project.galleryCount > 0 && (
+          <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-black/40 text-white backdrop-blur-sm">
+            +{project.galleryCount} photos
           </span>
-        </div>
+        )}
       </div>
 
-      <div className="flex flex-1 flex-col p-6">
-        <p className="text-xs font-semibold uppercase tracking-wider text-primary-600 mb-2">
+      <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+        <p className="text-xs font-semibold uppercase tracking-wider text-white/85 mb-1.5 drop-shadow">
           {project.location}
         </p>
-
-        <h3 className="text-xl font-heading font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors duration-300">
-          {project.title}
-        </h3>
-
-        <p className="text-secondary-600 text-sm leading-relaxed mb-5 line-clamp-3">
-          {project.description}
-        </p>
-
-        {project.id && (
-          <div className="mt-auto pt-4 border-t border-secondary-100">
-            <span className="inline-flex items-center gap-2 text-primary-600 font-medium text-sm group-hover:gap-3 transition-all duration-300">
-              View Project
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="flex items-end justify-between gap-4">
+          <h3
+            className={`font-heading font-bold text-white leading-snug ${
+              large ? 'text-2xl sm:text-3xl' : 'text-lg sm:text-xl'
+            }`}
+          >
+            {project.title}
+          </h3>
+          {project.id && (
+            <span className="flex-shrink-0 w-10 h-10 rounded-full bg-white text-primary-700 flex items-center justify-center transition-all duration-300 lg:opacity-0 lg:translate-x-2 lg:group-hover:opacity-100 lg:group-hover:translate-x-0">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </span>
-          </div>
-        )}
+          )}
+        </div>
+        <p
+          className={`text-sm text-white/80 leading-relaxed line-clamp-2 mt-2 transition-all duration-500 lg:max-h-0 lg:mt-0 lg:opacity-0 lg:group-hover:max-h-12 lg:group-hover:mt-2 lg:group-hover:opacity-100 ${
+            large ? 'max-w-xl' : ''
+          }`}
+        >
+          {project.description}
+        </p>
       </div>
     </>
   );
 
   // Fallback projects have no id, so there is nothing to navigate to.
   return project.id ? (
-    <Link to={`/project/${project.id}`} className={className} style={style}>
+    <Link to={`/project/${project.id}`} className={wrapperClass} style={style} aria-label={`View project: ${project.title}`}>
       {content}
     </Link>
   ) : (
-    <div className={className} style={style}>
+    <div className={wrapperClass} style={style}>
       {content}
     </div>
   );
@@ -175,4 +195,27 @@ export const EmptyProjects: React.FC<{ filter: string }> = ({ filter }) => (
   <p className="text-center text-secondary-500 mb-12">
     No {filter === 'all' ? '' : `${filter} `}projects to show yet.
   </p>
+);
+
+/** Placeholder tile shown while projects are loading, mirroring ProjectCard's shape. */
+export const ProjectCardSkeleton: React.FC<{ className?: string }> = ({ className = 'aspect-[4/3]' }) => (
+  <div className={`relative rounded-2xl bg-secondary-200 animate-pulse overflow-hidden ${className}`}>
+    <div className="absolute bottom-0 inset-x-0 p-6 space-y-2">
+      <div className="h-3 w-24 bg-secondary-300 rounded" />
+      <div className="h-5 w-2/3 bg-secondary-300 rounded" />
+    </div>
+  </div>
+);
+
+/** A responsive grid of skeleton tiles, matching the real project grid layout. */
+export const ProjectCardSkeletonGrid: React.FC<{ count?: number }> = ({ count = 6 }) => (
+  <div
+    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+    role="status"
+    aria-label="Loading projects"
+  >
+    {Array.from({ length: count }).map((_, index) => (
+      <ProjectCardSkeleton key={index} />
+    ))}
+  </div>
 );

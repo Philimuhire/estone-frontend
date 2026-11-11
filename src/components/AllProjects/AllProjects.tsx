@@ -5,17 +5,26 @@ import Footer from '../Footer/Footer';
 import {
   EmptyProjects,
   ProjectCard,
+  ProjectCardSkeletonGrid,
   ProjectFilters,
   filterProjects,
   isProjectFilter,
   usePortfolioProjects,
 } from '../Work/portfolio';
+import { usePageMeta } from '../usePageMeta';
 
 const PROJECTS_PER_PAGE = 9;
 
 const AllProjects: React.FC = () => {
-  const projects = usePortfolioProjects();
+  const { projects, loading } = usePortfolioProjects();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  usePageMeta({
+    title: 'Our Projects',
+    description:
+      'Residential and commercial buildings designed and built by ESTONE Design & Construction across Rwanda.',
+    path: '/projects',
+  });
 
   // Filter and page live in the URL so the home page can link straight to a
   // filtered view and the back button returns to the same page of results.
@@ -61,10 +70,12 @@ const AllProjects: React.FC = () => {
             <ProjectFilters active={activeFilter} onChange={(filter) => updateParams(filter, 1)} />
           </div>
 
-          {filteredProjects.length === 0 ? (
+          {loading ? (
+            <ProjectCardSkeletonGrid count={PROJECTS_PER_PAGE} />
+          ) : filteredProjects.length === 0 ? (
             <EmptyProjects filter={activeFilter} />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
               {paginatedProjects.map((project, index) => (
                 <ProjectCard key={project.id ?? `fallback-${index}`} project={project} />
               ))}

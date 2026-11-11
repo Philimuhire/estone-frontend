@@ -2,19 +2,37 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   EmptyProjects,
+  PortfolioProject,
   ProjectCard,
+  ProjectCardSkeleton,
   ProjectFilters,
   filterProjects,
   usePortfolioProjects,
 } from './portfolio';
 
 /** The home page shows a preview; the rest live on /projects. */
-const HOME_PROJECT_LIMIT = 6;
+const HOME_PROJECT_LIMIT = 5;
+
+// Tile spans for each preview size, so the grid always closes without gaps.
+// The first tile is the featured project. Tailwind needs full class names here.
+const bentoLayouts: Record<number, string[]> = {
+  1: ['md:col-span-2 lg:col-span-3 md:row-span-2'],
+  2: ['md:col-span-2 lg:col-span-2 md:row-span-2', 'md:col-span-2 lg:col-span-1 lg:row-span-2'],
+  3: ['md:col-span-2 lg:col-span-2 md:row-span-2', '', ''],
+  4: ['md:col-span-2 lg:col-span-2 md:row-span-2', '', '', 'md:col-span-2 lg:col-span-3'],
+  5: ['md:col-span-2 lg:col-span-2 md:row-span-2', '', '', '', 'md:col-span-1 lg:col-span-2'],
+};
+
+/** Featured projects lead, keeping the API order otherwise. */
+const featuredFirst = (projects: PortfolioProject[]) => [
+  ...projects.filter((p) => p.featured),
+  ...projects.filter((p) => !p.featured),
+];
 
 const Work: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeFilter, setActiveFilter] = useState('all');
-  const projects = usePortfolioProjects();
+  const { projects, loading } = usePortfolioProjects();
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -35,7 +53,8 @@ const Work: React.FC = () => {
   }, []);
 
   const filteredProjects = filterProjects(projects, activeFilter);
-  const previewProjects = filteredProjects.slice(0, HOME_PROJECT_LIMIT);
+  const previewProjects = featuredFirst(filteredProjects).slice(0, HOME_PROJECT_LIMIT);
+  const layout = bentoLayouts[previewProjects.length] ?? [];
   const allProjectsLink = activeFilter === 'all' ? '/projects' : `/projects?category=${activeFilter}`;
 
   return (
@@ -61,11 +80,21 @@ const Work: React.FC = () => {
           <ProjectFilters active={activeFilter} onChange={setActiveFilter} />
         </div>
 
-        {filteredProjects.length === 0 ? (
+        {loading ? (
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[260px] lg:auto-rows-[280px] gap-4 lg:gap-5 mb-12"
+            role="status"
+            aria-label="Loading projects"
+          >
+            {bentoLayouts[HOME_PROJECT_LIMIT].map((span, index) => (
+              <ProjectCardSkeleton key={index} className={span} />
+            ))}
+          </div>
+        ) : filteredProjects.length === 0 ? (
           <EmptyProjects filter={activeFilter} />
         ) : (
           <div
-            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12 transition-all duration-700 delay-200 ${
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 auto-rows-[260px] lg:auto-rows-[280px] gap-4 lg:gap-5 mb-12 transition-all duration-700 delay-200 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
@@ -73,7 +102,8 @@ const Work: React.FC = () => {
               <ProjectCard
                 key={project.id ?? `fallback-${index}`}
                 project={project}
-                style={{ transitionDelay: `${index * 100}ms` }}
+                className={layout[index] ?? ''}
+                large={index === 0}
               />
             ))}
           </div>

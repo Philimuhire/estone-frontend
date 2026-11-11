@@ -8,6 +8,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Keep anchored sections clear of the fixed header. */
+    scroll-padding-top: 2rem;
   }
 
   body {

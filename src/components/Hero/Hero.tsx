@@ -3,7 +3,6 @@ import { fetchProjects } from '../../services/api';
 
 const HERO_IMAGES = [
   '/images/project-commercial-building-2.jpg',
-  '/images/project-modern-residence-2.jpg',
   '/images/project-commercial-building-1.jpg',
 ];
 
@@ -13,11 +12,13 @@ interface StatItem {
   value: string;
   label: string;
   suffix?: string;
+  loading?: boolean;
 }
 
 const Hero: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [projectCount, setProjectCount] = useState(0);
+  const [countLoading, setCountLoading] = useState(true);
   const [heroImages, setHeroImages] = useState(HERO_IMAGES);
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -50,6 +51,8 @@ const Hero: React.FC = () => {
         setProjectCount(projects.length);
       } catch {
         setProjectCount(0);
+      } finally {
+        setCountLoading(false);
       }
     };
 
@@ -57,7 +60,7 @@ const Hero: React.FC = () => {
   }, []);
 
   const stats: StatItem[] = [
-    { value: String(projectCount), suffix: '+', label: 'Projects Completed' },
+    { value: String(projectCount), suffix: '+', label: 'Projects Completed', loading: countLoading },
     { value: '2', suffix: '+', label: 'Years Experience' },
   ];
 
@@ -87,7 +90,7 @@ const Hero: React.FC = () => {
                 : 'opacity-0 translate-y-10'
             }`}
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-white leading-tight mb-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white uppercase leading-tight mb-6">
               ESTONE{' '}
               <span className="text-primary-200">Design</span> And{' '}
               <span className="relative">
@@ -168,8 +171,14 @@ const Hero: React.FC = () => {
                   style={{ transitionDelay: `${(index + 1) * 200}ms` }}
                 >
                   <div className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white mb-1">
-                    {stat.value}
-                    <span className="text-primary-300">{stat.suffix}</span>
+                    {stat.loading ? (
+                      <span className="inline-block h-8 sm:h-9 lg:h-11 w-14 bg-white/20 rounded-lg animate-pulse align-middle" />
+                    ) : (
+                      <>
+                        {stat.value}
+                        <span className="text-primary-300">{stat.suffix}</span>
+                      </>
+                    )}
                   </div>
                   <div className="text-xs sm:text-sm text-white/70 font-medium">
                     {stat.label}

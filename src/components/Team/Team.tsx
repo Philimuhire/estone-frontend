@@ -19,39 +19,6 @@ const ceo = {
   image: '/images/team-leader.jpg',
 };
 
-const fallbackTeamMembers: TeamMember[] = [
-  {
-    name: 'Lead Engineer',
-    role: 'Certified Civil Engineer',
-    description: 'Expert in structural design and project execution',
-    image: '/images/team-leader.jpg',
-  },
-  {
-    name: 'Yves NDACYAYISENGA',
-    role: 'Operations Manager',
-    description: 'Strategic leadership and business development',
-    image: '/images/team-leader.jpg',
-  },
-  {
-    name: 'Site QS',
-    role: 'Quality Surveyor',
-    description: 'Quantity surveying and quality assurance specialist',
-    image: '/images/team-leader.jpg',
-  },
-  {
-    name: 'Evariste DUSABIMANA',
-    role: 'Structural Engineer',
-    description: 'Advanced structural analysis and design expert',
-    image: '/images/team-leader.jpg',
-  },
-  {
-    name: 'Accountant',
-    role: 'Financial Management',
-    description: 'Financial planning and project cost management',
-    image: '/images/team-leader.jpg',
-  },
-];
-
 const values = [
   {
     title: 'Excellence',
@@ -84,7 +51,8 @@ const values = [
 
 const Team: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>(fallbackTeamMembers);
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
+  const [loading, setLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -105,6 +73,8 @@ const Team: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    let active = true;
+
     const loadTeamMembers = async () => {
       try {
         const data = await fetchTeamMembers();
@@ -119,15 +89,26 @@ const Team: React.FC = () => {
 
         const otherMembers = mappedMembers.filter(m => !m.isCEO);
 
-        if (otherMembers.length > 0) {
+        if (active) {
           setTeamMembers(otherMembers);
         }
       } catch (error) {
-        console.error('Failed to load team members, using fallback data');
+        console.error('Failed to load team members');
+        if (active) {
+          setTeamMembers([]);
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
       }
     };
 
     loadTeamMembers();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
@@ -157,19 +138,17 @@ const Team: React.FC = () => {
           }`}
         >
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div>
-              <div className="rounded-3xl overflow-hidden shadow-2xl">
+            <div className="flex flex-col items-center text-center">
+              <div className="mb-6 rounded-full p-1.5 ring-2 ring-primary-300">
                 <img
                   src={ceo.image}
                   alt={`${ceo.name} - ${ceo.role}`}
-                  className="w-full h-[400px] lg:h-[500px] object-cover object-top"
+                  className="w-56 h-56 sm:w-72 sm:h-72 lg:w-80 lg:h-80 rounded-full object-cover object-top shadow-xl"
                 />
               </div>
 
-              <div className="mt-4 bg-white rounded-2xl px-6 py-4 shadow-lg border border-secondary-100 border-l-4 border-l-primary-600">
-                <p className="text-lg font-heading font-bold text-secondary-900">{ceo.name}</p>
-                <p className="text-sm text-primary-600 font-medium">{ceo.role}</p>
-              </div>
+              <p className="text-xl font-heading font-bold text-secondary-900">{ceo.name}</p>
+              <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider mt-1">{ceo.role}</p>
             </div>
 
             <div>
@@ -206,6 +185,7 @@ const Team: React.FC = () => {
           </div>
         </div>
 
+        {(loading || teamMembers.length > 0) && (
         <div
           className={`mb-16 transition-all duration-1000 delay-400 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
@@ -217,36 +197,52 @@ const Team: React.FC = () => {
             </h3>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6">
+          {loading && (
+            <div className="flex flex-wrap justify-center gap-x-10 gap-y-12" role="status" aria-label="Loading team members">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="flex flex-col items-center w-full sm:w-64">
+                  <div className="w-40 h-40 rounded-full bg-secondary-200 animate-pulse mb-5" />
+                  <div className="h-5 w-40 bg-secondary-200 rounded animate-pulse mb-2" />
+                  <div className="h-3 w-28 bg-secondary-200 rounded animate-pulse mb-4" />
+                  <div className="w-full space-y-2">
+                    <div className="h-3 w-full bg-secondary-200 rounded animate-pulse" />
+                    <div className="h-3 w-2/3 mx-auto bg-secondary-200 rounded animate-pulse" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {!loading && (
+          <div className="flex flex-wrap justify-center gap-x-10 gap-y-12">
             {teamMembers.map((member, index) => (
               <div
                 key={member.id || index}
-                className="group flex flex-col w-full sm:w-[calc(50%-12px-1px)] md:w-[calc(33.333%-16px-1px)] lg:w-[calc(25%-18px-1px)] bg-white rounded-2xl overflow-hidden shadow-lg border border-secondary-100 hover:shadow-2xl hover:shadow-primary-500/10 hover:-translate-y-2 hover:border-primary-200 transition-all duration-500"
+                className="group flex flex-col items-center text-center w-full sm:w-64"
               >
-                <div className="relative aspect-[4/3] sm:aspect-[4/5] overflow-hidden">
+                <div className="mb-5 rounded-full p-1 ring-2 ring-primary-200 group-hover:ring-primary-500 transition-all duration-300">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
+                    className="w-40 h-40 rounded-full object-cover object-top shadow-md"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
-                  <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider mb-2">
-                    {member.role}
-                  </p>
-                  <h4 className="text-xl font-heading font-bold text-secondary-900 mb-2 group-hover:text-primary-600 transition-colors duration-300">
-                    {member.name}
-                  </h4>
-                  <p className="text-sm text-secondary-600 leading-relaxed">
-                    {member.description}
-                  </p>
-                </div>
+                <h4 className="text-lg font-heading font-bold text-secondary-900">
+                  {member.name}
+                </h4>
+                <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider mt-1 mb-3">
+                  {member.role}
+                </p>
+                <p className="text-sm text-secondary-600 leading-relaxed">
+                  {member.description}
+                </p>
               </div>
             ))}
           </div>
+          )}
         </div>
+        )}
 
         <div
           className={`transition-all duration-1000 delay-600 ${
