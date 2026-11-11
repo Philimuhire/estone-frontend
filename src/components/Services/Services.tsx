@@ -8,52 +8,10 @@ interface ServiceItem {
   features: string[];
 }
 
-const fallbackServices: ServiceItem[] = [
-  {
-    title: 'All Civil Related Works Design & Construction',
-    description: 'Comprehensive civil engineering solutions including design, analysis, and construction of infrastructure projects with meticulous attention to detail and quality.',
-    features: ['Infrastructure Design', 'Project Management', 'Quality Assurance', 'Site Supervision'],
-  },
-  {
-    title: 'Road Design & Construction',
-    description: 'Expert highway and public infrastructure development including road design, construction supervision, and maintenance planning for durable transportation networks.',
-    features: ['Highway Design', 'Traffic Engineering', 'Pavement Analysis', 'Construction Management'],
-  },
-  {
-    title: 'House Design & Construction',
-    description: 'Custom residential design and construction services from concept to completion, ensuring your dream home meets the highest standards of quality and sustainability.',
-    features: ['Architectural Design', 'Interior Planning', 'Construction Supervision', 'Quality Control'],
-  },
-  {
-    title: 'Engineering Software Trainings',
-    description: 'Professional training programs in industry-standard engineering software to enhance your team\'s technical capabilities and project efficiency.',
-    features: ['CAD Training', 'Structural Software', 'GIS Training', 'Professional Certification'],
-  },
-  {
-    title: 'Structural Analysis',
-    description: 'Advanced structural analysis and engineering solutions using cutting-edge software and methodologies to ensure safety, efficiency, and compliance.',
-    features: ['Load Analysis', 'Seismic Design', 'Foundation Design', 'Structural Optimization'],
-  },
-  {
-    title: 'GIS & Remote Sensing',
-    description: 'Geographic Information Systems and remote sensing services for spatial analysis, mapping, and data-driven decision making in engineering projects.',
-    features: ['Spatial Analysis', 'Land Surveying', 'Environmental Mapping', 'Data Visualization'],
-  },
-  {
-    title: 'Interior Design',
-    description: 'Professional interior design services that transform spaces into functional, aesthetic environments that reflect your vision and enhance user experience.',
-    features: ['Space Planning', 'Material Selection', 'Lighting Design', 'Project Coordination'],
-  },
-  {
-    title: 'Landscape Architecture',
-    description: 'Sustainable landscape design solutions that harmonize natural elements with built environments for enhanced aesthetics and functionality.',
-    features: ['Site Planning', 'Environmental Design', 'Sustainable Solutions', 'Maintenance Planning'],
-  },
-];
-
 const Services: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [services, setServices] = useState<ServiceItem[]>(fallbackServices);
+  const [services, setServices] = useState<ServiceItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -74,6 +32,8 @@ const Services: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    let active = true;
+
     const loadServices = async () => {
       try {
         const data = await fetchServices();
@@ -86,15 +46,26 @@ const Services: React.FC = () => {
             features: s.features || [],
           }));
 
-        if (mappedServices.length > 0) {
+        if (active) {
           setServices(mappedServices);
         }
       } catch (error) {
-        console.error('Failed to load services, using fallback data');
+        console.error('Failed to load services');
+        if (active) {
+          setServices([]);
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
       }
     };
 
     loadServices();
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
@@ -118,6 +89,27 @@ const Services: React.FC = () => {
           </p>
         </div>
 
+        {loading && (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" role="status" aria-label="Loading services">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <div key={index} className="bg-white rounded-2xl p-6 shadow-lg border border-secondary-100">
+                <div className="h-5 w-3/4 bg-secondary-200 rounded animate-pulse mb-3" />
+                <div className="space-y-2 mb-4">
+                  <div className="h-3 w-full bg-secondary-200 rounded animate-pulse" />
+                  <div className="h-3 w-full bg-secondary-200 rounded animate-pulse" />
+                  <div className="h-3 w-2/3 bg-secondary-200 rounded animate-pulse" />
+                </div>
+                <div className="space-y-2">
+                  {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="h-3 w-1/2 bg-secondary-200 rounded animate-pulse" />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {!loading && (
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((service, index) => (
             <div
@@ -160,6 +152,7 @@ const Services: React.FC = () => {
             </div>
           ))}
         </div>
+        )}
       </div>
     </section>
   );
