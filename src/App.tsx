@@ -5,8 +5,11 @@ import { ProjectDetail } from './components/ProjectDetail';
 import AllProjects from './components/AllProjects';
 import ScrollToHash from './components/ScrollToHash';
 import AdminRoutes from './admin';
+import { usePageMeta } from './components/usePageMeta';
 
 const HomePage: React.FC = () => {
+  usePageMeta({ path: '/' });
+
   return (
     <div className="min-h-screen">
       <Header />
