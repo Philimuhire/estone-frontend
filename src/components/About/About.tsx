@@ -50,8 +50,6 @@ const About: React.FC = () => {
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'
             }`}
           >
-            <div className="absolute -top-6 -left-6 w-32 h-32 bg-primary-100 rounded-3xl -z-10" />
-            <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-primary-600/10 rounded-3xl -z-10" />
 
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img
@@ -80,7 +78,7 @@ const About: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-secondary-900">2+</p>
-                  <p className="text-xs text-secondary-500">Years of Work</p>
+                  <p className="text-xs text-secondary-500">Years of Experience</p>
                 </div>
               </div>
             </div>
