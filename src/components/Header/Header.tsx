@@ -79,7 +79,7 @@ const Header: React.FC<HeaderProps> = ({ forceSolid = false }) => {
               <span className={`text-xs font-medium transition-colors duration-300 ${
                 isSolid ? 'text-secondary-500' : 'text-white/80'
               }`}>
-                Engineering Excellence
+                Where Your Aspirations Are Our Inspiration
               </span>
             </div>
           </a>

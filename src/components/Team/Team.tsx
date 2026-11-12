@@ -16,6 +16,7 @@ interface TeamMember {
 const ceo = {
   name: 'Eng. Daniel NDAGIJIMANA',
   role: 'CEO & Founder',
+  credential: 'Certified Civil Engineer',
   image: '/images/team-leader.jpg',
 };
 
@@ -148,6 +149,7 @@ const Team: React.FC = () => {
               </div>
 
               <p className="text-xl font-heading font-bold text-secondary-900">{ceo.name}</p>
+              <p className="text-sm text-secondary-600 mt-1">{ceo.credential}</p>
               <p className="text-xs text-primary-600 font-semibold uppercase tracking-wider mt-1">{ceo.role}</p>
             </div>
 

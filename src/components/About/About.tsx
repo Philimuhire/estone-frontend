@@ -39,7 +39,7 @@ const About: React.FC = () => {
 
           <div className="flex items-center justify-center gap-4 max-w-xl mx-auto">
             <p className="text-base sm:text-lg text-secondary-600 font-medium italic px-4">
-              Where Your Aspiration Are Our Inspiration.
+              Where Your Aspirations Are Our Inspiration.
             </p>
           </div>
         </div>
@@ -55,24 +55,17 @@ const About: React.FC = () => {
 
             <div className="relative rounded-3xl overflow-hidden shadow-2xl">
               <img
-                src="/images/hero-engineering.jpg"
-                alt="ESTONE Engineering Excellence"
-                className="w-full h-[400px] lg:h-[500px] object-cover object-top"
+                src="/images/estone-photo.jpeg"
+                alt="Modern residential building designed by ESTONE Ltd"
+                className="w-full h-[400px] lg:h-[500px] object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary-900/40 via-transparent to-transparent" />
 
               <div className="absolute bottom-6 left-6 right-6">
                 <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
-                  <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 rounded-xl bg-primary-600 flex items-center justify-center flex-shrink-0">
-                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                      </svg>
-                    </div>
-                    <div>
-                      <p className="font-bold text-secondary-900">ESTONE Ltd</p>
-                      <p className="text-sm text-secondary-500">Nyarugenge - Kigali - Rwanda</p>
-                    </div>
+                  <div>
+                    <p className="font-bold text-secondary-900">ESTONE Ltd</p>
+                    <p className="text-sm text-secondary-500">Nyarugenge - Kigali - Rwanda</p>
                   </div>
                 </div>
               </div>
@@ -87,7 +80,7 @@ const About: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-secondary-900">2+</p>
-                  <p className="text-xs text-secondary-500">Years of Excellence</p>
+                  <p className="text-xs text-secondary-500">Years of Work</p>
                 </div>
               </div>
             </div>
