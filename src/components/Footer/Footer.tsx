@@ -27,14 +27,14 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           <div className="lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-primary-600 flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              </div>
+              <img
+                src="/images/company-logo.png"
+                alt="ESTONE Design & Construction"
+                className="h-12 w-auto rounded-lg flex-shrink-0"
+              />
               <div>
                 <h3 className="font-heading font-bold text-lg">ESTONE Ltd</h3>
-                <p className="text-xs text-primary-400">Engineering Excellence</p>
+                <p className="text-xs text-primary-400">Where Your Aspirations Are Our Inspiration</p>
               </div>
             </div>
 

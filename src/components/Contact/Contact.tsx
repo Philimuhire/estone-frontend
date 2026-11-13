@@ -243,7 +243,7 @@ const Contact: React.FC = () => {
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Type your message (at least 10 characters)"
+                  placeholder="Type your message"
                   required
                   minLength={10}
                   maxLength={2000}

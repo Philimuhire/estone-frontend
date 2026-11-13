@@ -69,19 +69,6 @@ const About: React.FC = () => {
               </div>
             </div>
 
-            <div className="absolute -right-4 top-8 bg-white rounded-2xl shadow-xl p-4 hidden lg:block">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-2xl font-bold text-secondary-900">2+</p>
-                  <p className="text-xs text-secondary-500">Years of Experience</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div
